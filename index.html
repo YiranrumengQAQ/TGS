@@ -1,0 +1,2019 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TG Sticker Hub</title>
+    <!-- 样式部分：完整保留所有原有美化代码，零删减 -->
+    <style>
+        :root {
+            --bg: #f7f5f2;
+            --bg-secondary: #f0ede9;
+            --surface: #ffffff;
+            --surface-hover: #fafaf8;
+            --surface-elevated: #ffffff;
+            --border: #e4e1dc;
+            --border-light: #eeebe7;
+            --text-primary: #1f1e1c;
+            --text-secondary: #6b6762;
+            --text-tertiary: #9a9590;
+            --accent: #4a7fd9;
+            --accent-hover: #3b6ec5;
+            --accent-soft: #eaf1fb;
+            --accent-glow: rgba(74, 127, 217, 0.18);
+            --danger: #d95555;
+            --danger-hover: #c44545;
+            --danger-soft: #fdf0f0;
+            --success: #4a9e6b;
+            --success-soft: #edf7f1;
+            --warning: #c9a23b;
+            --warning-soft: #fdf8ed;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 16px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
+            --radius-xs: 6px;
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 24px;
+            --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', 'Monaco', 'Menlo', monospace;
+            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --checker-light: #e8e5e0;
+            --checker-dark: #f5f3f0;
+            --pulse-color: #4a7fd9;
+        }
+
+        [data-theme="dark"] {
+            --bg: #181a1f;
+            --bg-secondary: #1e2027;
+            --surface: #22242d;
+            --surface-hover: #272a34;
+            --surface-elevated: #2a2d37;
+            --border: #323540;
+            --border-light: #2c2f39;
+            --text-primary: #e4e3e0;
+            --text-secondary: #a09c96;
+            --text-tertiary: #706c67;
+            --accent: #6daef5;
+            --accent-hover: #5a9de4;
+            --accent-soft: #1c2636;
+            --accent-glow: rgba(109, 174, 245, 0.22);
+            --danger: #e07070;
+            --danger-hover: #d05858;
+            --danger-soft: #2a1f1f;
+            --success: #5dae7a;
+            --success-soft: #1b2821;
+            --warning: #d4b14a;
+            --warning-soft: #2a2518;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px 4px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.2);
+            --shadow-xl: 0 16px 40px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.25);
+            --checker-light: #2a2d36;
+            --checker-dark: #22252e;
+            --pulse-color: #6daef5;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            transition: background var(--transition-slow), color var(--transition-slow);
+            line-height: 1.5;
+            letter-spacing: -0.01em;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 200px 200px;
+        }
+
+        .app-container {
+            position: relative;
+            z-index: 1;
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 24px 20px 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .app-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            user-select: none;
+        }
+
+        .app-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, #4a7fd9 0%, #6daef5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(74, 127, 217, 0.3);
+        }
+
+        .app-logo svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .app-title {
+            font-size: 1.25rem;
+            font-weight: 650;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .app-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            font-weight: 450;
+            letter-spacing: 0.01em;
+        }
+
+        .theme-toggle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md), 0 0 0 4px var(--accent-soft);
+            transform: rotate(15deg);
+        }
+
+        .theme-toggle:active {
+            transform: rotate(15deg) scale(0.93);
+        }
+
+        .theme-toggle .icon-sun,
+        .theme-toggle .icon-moon {
+            position: absolute;
+            transition: all var(--transition-normal);
+        }
+
+        [data-theme="light"] .theme-toggle .icon-moon {
+            opacity: 1;
+            transform: translateY(0) rotate(0);
+        }
+
+        [data-theme="light"] .theme-toggle .icon-sun {
+            opacity: 0;
+            transform: translateY(20px) rotate(60deg);
+        }
+
+        [data-theme="dark"] .theme-toggle .icon-moon {
+            opacity: 0;
+            transform: translateY(-20px) rotate(-60deg);
+        }
+
+        [data-theme="dark"] .theme-toggle .icon-sun {
+            opacity: 1;
+            transform: translateY(0) rotate(0);
+        }
+
+        .theme-toggle svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--text-primary);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 20px 22px;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .card-header-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: var(--radius-xs);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .card-header-icon.setup {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .card-header-icon.media {
+            background: var(--success-soft);
+            color: var(--success);
+        }
+
+        .card-header-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+
+        .card-header-sub {
+            font-size: 0.72rem;
+            color: var(--text-tertiary);
+        }
+
+        .token-input-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .token-input-wrapper {
+            flex: 1;
+            min-width: 220px;
+            position: relative;
+        }
+
+        .token-input {
+            width: 100%;
+            padding: 12px 16px;
+            padding-right: 44px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.88rem;
+            font-family: var(--font-mono);
+            letter-spacing: 0.02em;
+            transition: all var(--transition-fast);
+            outline: none;
+        }
+
+        .token-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-soft);
+            background: var(--surface);
+        }
+
+        .token-input::placeholder {
+            color: var(--text-tertiary);
+            font-family: inherit;
+            letter-spacing: 0.01em;
+        }
+
+        .token-visibility-btn {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-tertiary);
+            transition: all var(--transition-fast);
+        }
+
+        .token-visibility-btn:hover {
+            color: var(--text-primary);
+            background: var(--surface);
+        }
+
+        .token-visibility-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 11px 20px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            cursor: pointer;
+            border: none;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+            user-select: none;
+            text-decoration: none;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+            transition: transform 0.1s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 2px 8px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        .btn-outline {
+            background: var(--surface);
+            color: var(--text-primary);
+            border: 1.5px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-hover);
+        }
+
+        .btn-sm {
+            padding: 7px 14px;
+            font-size: 0.78rem;
+            border-radius: var(--radius-xs);
+        }
+
+        .btn-xs {
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            border-radius: 5px;
+            letter-spacing: 0.02em;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border-radius: 50%;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .btn svg {
+            width: 15px;
+            height: 15px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .btn-sm svg {
+            width: 13px;
+            height: 13px;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all var(--transition-normal);
+        }
+
+        .status-dot.offline {
+            background: #b0ada8;
+            box-shadow: none;
+        }
+
+        .status-dot.online {
+            background: var(--success);
+            box-shadow: 0 0 10px rgba(74, 158, 107, 0.5);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        .status-dot.error-state {
+            background: var(--danger);
+            box-shadow: 0 0 10px rgba(217, 85, 85, 0.5);
+            animation: pulse-dot 1.2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                box-shadow: 0 0 6px currentColor;
+            }
+            50% {
+                box-shadow: 0 0 18px currentColor, 0 0 30px currentColor;
+            }
+        }
+
+        .status-text {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: -0.01em;
+        }
+
+        .media-card {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+            animation: slideUp 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .media-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .media-preview-container {
+            position: relative;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+            max-height: 420px;
+            overflow: hidden;
+            background-image:
+                linear-gradient(45deg, var(--checker-light) 25%, transparent 25%),
+                linear-gradient(-45deg, var(--checker-light) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, var(--checker-light) 75%),
+                linear-gradient(-45deg, transparent 75%, var(--checker-light) 75%);
+            background-size: 24px 24px;
+            background-position: 0 0, 0 12px, 12px -12px, -12px 0px;
+            background-color: var(--checker-dark);
+        }
+
+        .media-preview-container img,
+        .media-preview-container video {
+            max-width: 100%;
+            max-height: 380px;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+        }
+
+        .media-preview-container video {
+            width: 100%;
+            max-height: 400px;
+            outline: none;
+        }
+
+        .media-type-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 2;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 650;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            background: var(--surface);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            pointer-events: none;
+        }
+
+        .media-type-badge.animated-type {
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-color: transparent;
+        }
+
+        .media-type-badge.video-type {
+            background: var(--warning-soft);
+            color: var(--warning);
+            border-color: transparent;
+        }
+
+        .tgs-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 40px 20px;
+            z-index: 1;
+        }
+
+        .tgs-placeholder .lottie-container {
+            width: 140px;
+            height: 140px;
+        }
+
+        .tgs-placeholder .tgs-label {
+            font-size: 0.78rem;
+            color: var(--text-tertiary);
+            letter-spacing: 0.02em;
+            font-weight: 500;
+        }
+
+        .tgs-pulse-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px dashed var(--accent);
+            animation: spin-slow 6s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tgs-pulse-ring-inner {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse-soft 2s ease-in-out infinite;
+        }
+
+        @keyframes spin-slow {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse-soft {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 1;
+            }
+        }
+
+        .media-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            padding: 16px 20px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .media-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .media-info-item .info-label {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        .media-info-item .info-value {
+            font-size: 0.82rem;
+            font-weight: 550;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            letter-spacing: 0.01em;
+        }
+
+        .media-actions {
+            display: flex;
+            gap: 8px;
+            padding: 12px 20px 16px;
+            flex-wrap: wrap;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .set-expansion {
+            border-top: 1px solid var(--border-light);
+            padding: 16px 20px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            background: var(--bg-secondary);
+        }
+
+        .set-expansion.open {
+            display: flex;
+            animation: slideUp 0.3s ease;
+        }
+
+        .set-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 10px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+
+        .set-grid::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .set-grid::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .set-grid::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        .set-sticker-item {
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .set-sticker-item:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .set-sticker-item img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            border-radius: 4px;
+            background-image:
+                linear-gradient(45deg, var(--checker-light) 25%, transparent 25%),
+                linear-gradient(-45deg, var(--checker-light) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, var(--checker-light) 75%),
+                linear-gradient(-45deg, transparent 75%, var(--checker-light) 75%);
+            background-size: 12px 12px;
+            background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+            background-color: var(--checker-dark);
+        }
+
+        .set-sticker-item .set-sticker-emoji {
+            font-size: 0.85rem;
+            line-height: 1;
+        }
+
+        .zip-progress {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: var(--surface);
+            border-radius: var(--radius-xs);
+            border: 1px solid var(--border-light);
+        }
+
+        .progress-track {
+            flex: 1;
+            height: 6px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--accent);
+            border-radius: 10px;
+            transition: width 0.25s ease;
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+
+        .toast {
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 0.82rem;
+            font-weight: 550;
+            letter-spacing: -0.01em;
+            background: var(--surface-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            animation: toastIn 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+                toastOut 0.3s 2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+            pointer-events: auto;
+            white-space: nowrap;
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes toastOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-tertiary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .empty-state .empty-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--border);
+        }
+
+        .empty-state .empty-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--text-tertiary);
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .empty-state .empty-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state .empty-desc {
+            font-size: 0.8rem;
+            max-width: 320px;
+            line-height: 1.5;
+        }
+
+        .history-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-section .section-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            padding: 0 4px;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .history-item:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md);
+        }
+
+        .history-thumb {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-xs);
+            object-fit: contain;
+            flex-shrink: 0;
+            background-image:
+                linear-gradient(45deg, var(--checker-light) 25%, transparent 25%),
+                linear-gradient(-45deg, var(--checker-light) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, var(--checker-light) 75%),
+                linear-gradient(-45deg, transparent 75%, var(--checker-light) 75%);
+            background-size: 10px 10px;
+            background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
+            background-color: var(--checker-dark);
+        }
+
+        .history-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .history-type {
+            font-size: 0.7rem;
+            font-weight: 650;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .history-meta {
+            font-size: 0.72rem;
+            color: var(--text-tertiary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 响应式 */
+        @media (max-width: 640px) {
+            .app-container {
+                padding: 16px 12px 40px;
+                gap: 14px;
+            }
+            .token-input-wrapper {
+                min-width: 100%;
+            }
+            .media-preview-container {
+                min-height: 140px;
+                max-height: 300px;
+            }
+            .media-info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .set-grid {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+                max-height: 240px;
+            }
+            .set-sticker-item img {
+                width: 48px;
+                height: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="app-brand">
+                <div class="app-logo">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="4" stroke="none" fill="none" />
+                        <circle cx="9" cy="9" r="2.5" />
+                        <circle cx="15" cy="9" r="2.5" />
+                        <path d="M6 16c2 3 6 3 8 1" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="app-title">Sticker Hub</div>
+                    <div class="app-subtitle">Telegram Media Receiver</div>
+                </div>
+            </div>
+            <button class="theme-toggle" id="themeToggle" title="切换亮色/暗色模式" aria-label="切换主题">
+                <svg class="icon-moon" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+                <svg class="icon-sun" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </svg>
+            </button>
+        </header>
+
+        <!-- Token 设置卡片 -->
+        <div class="card" id="setupCard">
+            <div class="card-header">
+                <div class="card-header-icon setup">KEY</div>
+                <div>
+                    <div class="card-header-title">Bot 令牌配置</div>
+                    <div class="card-header-sub">输入 Telegram Bot Token 以开始监听</div>
+                </div>
+            </div>
+            <div class="token-input-group">
+                <div class="token-input-wrapper">
+                    <input type="password" class="token-input" id="tokenInput" placeholder="1234567890:ABCdefGHIjklMNOpqrsTUVwxyz" autocomplete="off" spellcheck="false">
+                    <button class="token-visibility-btn" id="tokenVisBtn" title="显示/隐藏令牌" type="button">
+                        <svg viewBox="0 0 24 24" id="eyeOffIcon">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                            <line x1="1" y1="1" x2="23" y2="23" />
+                        </svg>
+                        <svg viewBox="0 0 24 24" id="eyeOnIcon" style="display:none;">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                    </button>
+                </div>
+                <button class="btn btn-primary" id="btnStart">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                    开始监听
+                </button>
+                <button class="btn btn-danger" id="btnStop" style="display:none;">
+                    <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
+                    停止
+                </button>
+            </div>
+            <div class="status-row" style="margin-top:12px;">
+                <span class="status-dot offline" id="statusDot"></span>
+                <span class="status-text" id="statusText">未连接</span>
+                <span style="flex:1;"></span>
+                <span class="status-text" id="lastPollTime" style="font-size:0.7rem;"></span>
+            </div>
+        </div>
+
+        <!-- 媒体展示区 -->
+        <div id="mediaDisplayArea">
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <circle cx="8.5" cy="10" r="1.5" />
+                        <polyline points="2 16 6 12 9 15 13 9 17 13 22 8" />
+                    </svg>
+                </div>
+                <div class="empty-title">等待媒体内容</div>
+                <div class="empty-desc">向你的 Bot 发送表情包、GIF 或贴纸，它们将自动出现在这里。</div>
+            </div>
+        </div>
+
+        <!-- 历史记录 -->
+        <div class="history-section" id="historySection" style="display:none;">
+            <div class="section-label">最近记录</div>
+            <div class="history-list" id="historyList"></div>
+        </div>
+    </div>
+
+    <!-- Toast 容器 -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- 依赖库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <script>
+        (function() {
+            // ==========================================
+            // 1. 令牌本地加密与存储模块
+            // ==========================================
+            const TokenManager = {
+                salt: "SuperSecret_TgSticker_2026",
+                save: function(token) {
+                    const encrypted = btoa(encodeURIComponent(token + this.salt));
+                    localStorage.setItem('tg_bot_token', encrypted);
+                },
+                get: function() {
+                    const encrypted = localStorage.getItem('tg_bot_token');
+                    if (!encrypted) return null;
+                    try {
+                        const decrypted = decodeURIComponent(atob(encrypted));
+                        return decrypted.replace(this.salt, "");
+                    } catch (e) {
+                        return null;
+                    }
+                },
+                clear: function() {
+                    localStorage.removeItem('tg_bot_token');
+                }
+            };
+
+            // ==========================================
+            // 2. Telegram API 通信核心 (增强稳定性)
+            // ==========================================
+            class TGBotCore {
+                constructor(token) {
+                    this.token = token;
+                    this.apiBase = `https://api.telegram.org/bot${token}`;
+                    this.fileApiBase = `https://api.telegram.org/file/bot${token}`;
+                    this.lastUpdateId = 0;
+                    this.isPolling = false;
+                    this.consecutiveErrors = 0;
+                    this.pollTimeoutId = null;
+                }
+
+                async request(method, params = {}, timeoutMs = 25000) {
+                    const controller = new AbortController();
+                    const timer = setTimeout(() => controller.abort(), timeoutMs);
+                    try {
+                        const url = new URL(`${this.apiBase}/${method}`);
+                        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+                        const response = await fetch(url, { signal: controller.signal });
+                        const data = await response.json();
+                        if (!data.ok) {
+                            const err = new Error(`TG API 错误: ${data.description}`);
+                            err.code = data.error_code;
+                            err.description = data.description;
+                            throw err;
+                        }
+                        return data.result;
+                    } finally {
+                        clearTimeout(timer);
+                    }
+                }
+
+                async getFileUrl(fileId) {
+                    const file = await this.request('getFile', { file_id: fileId });
+                    return `${this.fileApiBase}/${file.file_path}`;
+                }
+
+                async getStickerSet(setName) {
+                    if (!setName) return null;
+                    return await this.request('getStickerSet', { name: setName });
+                }
+            }
+
+            // ==========================================
+            // 3. 消息拦截与媒体解析器
+            // ==========================================
+            const MediaParser = {
+                async parseMessage(botCore, message) {
+                    let mediaData = null;
+                    let type = 'unknown';
+                    let sourceCategory = 'unknown';
+
+                    if (message.sticker) {
+                        mediaData = message.sticker;
+                        sourceCategory = 'sticker';
+                        if (mediaData.is_animated) type = 'tgs';
+                        else if (mediaData.is_video) type = 'webm';
+                        else type = 'webp';
+                    } else if (message.animation) {
+                        mediaData = message.animation;
+                        sourceCategory = 'animation';
+                        type = (mediaData.mime_type === 'video/mp4') ? 'mp4' : 'gif';
+                    } else if (message.document && message.document.mime_type && message.document.mime_type.includes('image')) {
+                        mediaData = message.document;
+                        sourceCategory = 'document';
+                        type = mediaData.mime_type.split('/')[1] || 'unknown';
+                    } else if (message.video) {
+                        mediaData = message.video;
+                        sourceCategory = 'video';
+                        type = 'mp4';
+                    }
+
+                    if (!mediaData) return null;
+
+                    const fileUrl = await botCore.getFileUrl(mediaData.file_id);
+                    let thumbnail = null;
+                    if (mediaData.thumbnail) {
+                        try {
+                            thumbnail = await botCore.getFileUrl(mediaData.thumbnail.file_id);
+                        } catch (e) { /* 缩略图获取失败不影响主流程 */ }
+                    }
+
+                    return {
+                        fileId: mediaData.file_id,
+                        type: type,
+                        originalUrl: fileUrl,
+                        emoji: mediaData.emoji || null,
+                        setName: mediaData.set_name || null,
+                        fileSize: mediaData.file_size || null,
+                        dimensions: `${mediaData.width || '?'}x${mediaData.height || '?'}`,
+                        mimeType: mediaData.mime_type || null,
+                        sourceCategory: sourceCategory,
+                        thumbnail: thumbnail,
+                        timestamp: Date.now(),
+                    };
+                }
+            };
+
+            // ==========================================
+            // 4. 格式转换与下载管理器
+            // ==========================================
+            const DownloadManager = {
+                async convertWebpToPng(webpUrl) {
+                    return new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.crossOrigin = "Anonymous";
+                        img.onload = () => {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0);
+                            try {
+                                resolve(canvas.toDataURL('image/png'));
+                            } catch (e) {
+                                reject(new Error("Canvas 跨域限制，无法转换"));
+                            }
+                        };
+                        img.onerror = () => reject(new Error("图片加载失败"));
+                        img.src = webpUrl;
+                    });
+                },
+
+                triggerDownload(url, filename) {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(() => document.body.removeChild(a), 300);
+                },
+
+                formatFileSize(bytes) {
+                    if (!bytes) return '未知';
+                    if (bytes < 1024) return bytes + ' B';
+                    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+                    return (bytes / 1048576).toFixed(2) + ' MB';
+                }
+            };
+
+            // ==========================================
+            // 5. TGS Lottie 渲染器
+            // ==========================================
+            const TGSRenderer = {
+                lottieAvailable: typeof lottie !== 'undefined',
+
+                async renderToContainer(containerEl, tgsUrl) {
+                    if (!this.lottieAvailable) {
+                        this._showFallback(containerEl);
+                        return false;
+                    }
+                    try {
+                        const response = await fetch(tgsUrl);
+                        if (!response.ok) throw new Error('Fetch TGS failed');
+                        const compressed = await response.arrayBuffer();
+                        const decompressed = await this._decompressGzip(compressed);
+                        const jsonText = new TextDecoder().decode(decompressed);
+                        const animationData = JSON.parse(jsonText);
+
+                        containerEl.innerHTML = '';
+                        const animContainer = document.createElement('div');
+                        animContainer.style.width = '160px';
+                        animContainer.style.height = '160px';
+                        containerEl.appendChild(animContainer);
+
+                        lottie.loadAnimation({
+                            container: animContainer,
+                            animationData: animationData,
+                            renderer: 'svg',
+                            loop: true,
+                            autoplay: true,
+                        });
+                        return true;
+                    } catch (e) {
+                        console.warn('TGS 渲染失败，使用占位符:', e.message);
+                        this._showFallback(containerEl);
+                        return false;
+                    }
+                },
+
+                async _decompressGzip(compressed) {
+                    if (typeof DecompressionStream !== 'undefined') {
+                        const ds = new DecompressionStream('gzip');
+                        const writer = ds.writable.getWriter();
+                        writer.write(compressed);
+                        writer.close();
+                        const reader = ds.readable.getReader();
+                        const chunks = [];
+                        while (true) {
+                            const { done, value } = await reader.read();
+                            if (done) break;
+                            chunks.push(value);
+                        }
+                        const totalLength = chunks.reduce((acc, c) => acc + c.length, 0);
+                        const result = new Uint8Array(totalLength);
+                        let offset = 0;
+                        for (const chunk of chunks) {
+                            result.set(chunk, offset);
+                            offset += chunk.length;
+                        }
+                        return result;
+                    } else {
+                        if (typeof pako !== 'undefined') {
+                            return pako.ungzip(new Uint8Array(compressed));
+                        }
+                        throw new Error('No decompression available');
+                    }
+                },
+
+                _showFallback(containerEl) {
+                    containerEl.innerHTML = `
+                        <div class="tgs-pulse-ring">
+                            <div class="tgs-pulse-ring-inner"></div>
+                        </div>
+                        <span class="tgs-label">Lottie 动画 (TGS)</span>
+                    `;
+                },
+            };
+
+            // ==========================================
+            // 6. 核心控制器 (修复：去重、重连、打包)
+            // ==========================================
+            class TGStickerApp {
+                constructor() {
+                    this.bot = null;
+                    this.mediaHistory = [];
+                    this.maxHistory = 30;
+                    this.processedFileIds = new Set(); // 用于消息去重
+                    this.onInfoReceived = null;
+                    this.onStatusChange = null;
+                    this.onError = null;
+                    this._visibilityHandler = null;
+                }
+
+                start(token) {
+                    TokenManager.save(token);
+                    this.bot = new TGBotCore(token);
+                    this.bot.isPolling = true;
+                    this.bot.consecutiveErrors = 0;
+                    this.processedFileIds.clear();
+                    this._startPolling();
+                    this._setupVisibilityListener();
+                    this._notifyStatus('online', '正在监听...');
+                }
+
+                stop() {
+                    if (this.bot) this.bot.isPolling = false;
+                    this.bot = null;
+                    this._clearTimers();
+                    this._notifyStatus('offline', '已停止');
+                }
+
+                _startPolling() {
+                    this._pollLoop().catch(() => {});
+                }
+
+                async _pollLoop() {
+                    while (this.bot && this.bot.isPolling) {
+                        try {
+                            const updates = await this.bot.request('getUpdates', {
+                                offset: this.bot.lastUpdateId + 1,
+                                timeout: 20,
+                            }, 30000);
+                            this.bot.consecutiveErrors = 0;
+                            this._notifyStatus('online', '监听中');
+
+                            for (let update of updates) {
+                                this.bot.lastUpdateId = update.update_id;
+                                if (update.message) {
+                                    try {
+                                        const mediaInfo = await MediaParser.parseMessage(this.bot, update.message);
+                                        if (mediaInfo && mediaInfo.fileId) {
+                                            // 去重：同一个 fileId 只处理一次
+                                            if (!this.processedFileIds.has(mediaInfo.fileId)) {
+                                                this.processedFileIds.add(mediaInfo.fileId);
+                                                // 防止 Set 无限增长
+                                                if (this.processedFileIds.size > 500) {
+                                                    this.processedFileIds.clear();
+                                                }
+                                                this._addToHistory(mediaInfo);
+                                                if (this.onInfoReceived) {
+                                                    this.onInfoReceived(mediaInfo);
+                                                }
+                                            }
+                                        }
+                                    } catch (parseErr) {
+                                        console.warn('解析单条消息失败:', parseErr.message);
+                                    }
+                                }
+                            }
+
+                            if (this.onStatusChange) {
+                                this.onStatusChange(Date.now());
+                            }
+                        } catch (error) {
+                            this.bot.consecutiveErrors++;
+                            console.error('轮询出错:', error.message);
+                            if (this.onError) this.onError(error);
+
+                            if (error.code === 401 || error.code === 403) {
+                                this._notifyStatus('error', 'Token 无效或未授权');
+                                this.stop();
+                                break;
+                            }
+                            if (this.bot.consecutiveErrors > 10) {
+                                this._notifyStatus('error', '连续错误过多，已暂停');
+                                this.stop();
+                                break;
+                            }
+
+                            const waitTime = Math.min(3000 * this.bot.consecutiveErrors, 30000);
+                            this._notifyStatus('error', `错误 (${waitTime/1000}s后重试)`);
+                            await new Promise(resolve => setTimeout(resolve, waitTime));
+                        }
+                    }
+                }
+
+                _setupVisibilityListener() {
+                    if (this._visibilityHandler) {
+                        document.removeEventListener('visibilitychange', this._visibilityHandler);
+                    }
+                    this._visibilityHandler = () => {
+                        if (document.visibilityState === 'visible' && this.bot && this.bot.isPolling) {
+                            if (this.bot.consecutiveErrors > 0) {
+                                this.bot.consecutiveErrors = 0;
+                            }
+                            this._notifyStatus('online', '监听中');
+                        }
+                    };
+                    document.addEventListener('visibilitychange', this._visibilityHandler);
+                }
+
+                _clearTimers() {
+                    if (this._visibilityHandler) {
+                        document.removeEventListener('visibilitychange', this._visibilityHandler);
+                        this._visibilityHandler = null;
+                    }
+                }
+
+                _addToHistory(mediaInfo) {
+                    this.mediaHistory.unshift(mediaInfo);
+                    if (this.mediaHistory.length > this.maxHistory) {
+                        this.mediaHistory = this.mediaHistory.slice(0, this.maxHistory);
+                    }
+                }
+
+                _notifyStatus(state, text, timestamp) {
+                    if (this.onStatusChange) {
+                        this.onStatusChange(state, text, timestamp || Date.now());
+                    }
+                }
+
+                async downloadFullSet(setName) {
+                    if (!this.bot) throw new Error("Bot 未初始化");
+                    const setInfo = await this.bot.getStickerSet(setName);
+                    if (!setInfo) return { title: null, stickers: [] };
+
+                    const promises = setInfo.stickers.map(async (sticker) => {
+                        const url = await this.bot.getFileUrl(sticker.file_id);
+                        let thumbUrl = null;
+                        if (sticker.thumbnail) {
+                            try {
+                                thumbUrl = await this.bot.getFileUrl(sticker.thumbnail.file_id);
+                            } catch (e) {}
+                        }
+                        return {
+                            fileId: sticker.file_id,
+                            url: url,
+                            thumbUrl: thumbUrl,
+                            emoji: sticker.emoji || null,
+                            type: sticker.is_animated ? 'tgs' : sticker.is_video ? 'webm' : 'webp',
+                        };
+                    });
+
+                    const stickers = await Promise.all(promises);
+                    return { title: setInfo.title, stickers: stickers };
+                }
+            }
+
+            // ==========================================
+            // 7. UI 层 (保留所有视觉交互)
+            // ==========================================
+            const app = new TGStickerApp();
+            let activeMediaCard = null;
+            let activeSetData = null;
+            let isPacking = false; // 打包互斥锁
+
+            const $ = (s) => document.querySelector(s);
+            const $tokenInput = $('#tokenInput');
+            const $btnStart = $('#btnStart');
+            const $btnStop = $('#btnStop');
+            const $statusDot = $('#statusDot');
+            const $statusText = $('#statusText');
+            const $lastPollTime = $('#lastPollTime');
+            const $mediaDisplayArea = $('#mediaDisplayArea');
+            const $emptyState = $('#emptyState');
+            const $historySection = $('#historySection');
+            const $historyList = $('#historyList');
+            const $toastContainer = $('#toastContainer');
+            const $themeToggle = $('#themeToggle');
+            const $tokenVisBtn = $('#tokenVisBtn');
+            const $eyeOffIcon = $('#eyeOffIcon');
+            const $eyeOnIcon = $('#eyeOnIcon');
+
+            // 主题初始化
+            function initTheme() {
+                const saved = localStorage.getItem('tg_sticker_theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const theme = saved || (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+            function toggleTheme() {
+                const current = document.documentElement.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('tg_sticker_theme', next);
+            }
+            $themeToggle.addEventListener('click', toggleTheme);
+            initTheme();
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                if (!localStorage.getItem('tg_sticker_theme')) initTheme();
+            });
+
+            // Token 可见性
+            let tokenVisible = false;
+            $tokenVisBtn.addEventListener('click', () => {
+                tokenVisible = !tokenVisible;
+                $tokenInput.type = tokenVisible ? 'text' : 'password';
+                $eyeOffIcon.style.display = tokenVisible ? 'none' : 'block';
+                $eyeOnIcon.style.display = tokenVisible ? 'block' : 'none';
+            });
+
+            function showToast(message) {
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.textContent = message;
+                $toastContainer.appendChild(toast);
+                setTimeout(() => { if (toast.parentNode) toast.remove(); }, 2400);
+            }
+
+            async function copyToClipboard(text) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    showToast('链接已复制');
+                } catch {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.cssText = 'position:fixed;opacity:0;';
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    showToast('链接已复制');
+                }
+            }
+
+            function updateStatus(state, text, timestamp) {
+                $statusDot.className = 'status-dot ' + state;
+                $statusText.textContent = text || '';
+                if (timestamp) {
+                    $lastPollTime.textContent = '最后轮询: ' + new Date(timestamp).toLocaleTimeString('zh-CN', {
+                        hour: '2-digit', minute: '2-digit', second: '2-digit'
+                    });
+                }
+                if (state === 'online') {
+                    $btnStart.style.display = 'none';
+                    $btnStop.style.display = 'inline-flex';
+                    $tokenInput.disabled = true;
+                    $tokenInput.style.opacity = '0.55';
+                } else if (state === 'offline' || state === 'error') {
+                    $btnStart.style.display = 'inline-flex';
+                    $btnStop.style.display = 'none';
+                    $tokenInput.disabled = false;
+                    $tokenInput.style.opacity = '1';
+                    if (state === 'offline') $lastPollTime.textContent = '';
+                }
+            }
+
+            app.onStatusChange = (stateOrTimestamp, textOrUndefined, timestampOrUndefined) => {
+                if (typeof stateOrTimestamp === 'string') {
+                    updateStatus(stateOrTimestamp, textOrUndefined, timestampOrUndefined);
+                } else if (typeof stateOrTimestamp === 'number') {
+                    updateStatus('online', '监听中', stateOrTimestamp);
+                }
+            };
+
+            app.onError = (error) => {
+                if (error.code === 401 || error.code === 403) {
+                    updateStatus('error', 'Token 无效');
+                    showToast('Token 无效，请检查后重试');
+                }
+            };
+
+            // 渲染媒体卡片
+            async function renderMediaCard(mediaInfo) {
+                if ($emptyState) $emptyState.style.display = 'none';
+                if (activeMediaCard) {
+                    activeMediaCard.style.boxShadow = '';
+                    activeMediaCard.style.borderColor = '';
+                }
+
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                card.style.boxShadow = 'var(--shadow-lg)';
+                card.style.borderColor = 'var(--accent)';
+                card.dataset.fileId = mediaInfo.fileId;
+
+                const previewContainer = document.createElement('div');
+                previewContainer.className = 'media-preview-container';
+
+                const badge = document.createElement('span');
+                badge.className = 'media-type-badge';
+                if (mediaInfo.type === 'tgs') badge.classList.add('animated-type');
+                if (['webm', 'mp4'].includes(mediaInfo.type)) badge.classList.add('video-type');
+                badge.textContent = mediaInfo.type.toUpperCase();
+                previewContainer.appendChild(badge);
+
+                if (mediaInfo.type === 'tgs') {
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'tgs-placeholder';
+                    const lottieContainer = document.createElement('div');
+                    lottieContainer.className = 'lottie-container';
+                    placeholder.appendChild(lottieContainer);
+                    previewContainer.appendChild(placeholder);
+                    TGSRenderer.renderToContainer(lottieContainer, mediaInfo.originalUrl);
+                } else if (['webm', 'mp4'].includes(mediaInfo.type)) {
+                    const video = document.createElement('video');
+                    video.src = mediaInfo.originalUrl;
+                    video.controls = true;
+                    video.preload = 'metadata';
+                    video.style.maxWidth = '100%';
+                    video.style.maxHeight = '380px';
+                    video.style.borderRadius = '4px';
+                    previewContainer.appendChild(video);
+                } else {
+                    const img = document.createElement('img');
+                    img.src = mediaInfo.originalUrl;
+                    img.alt = 'Sticker preview';
+                    img.loading = 'lazy';
+                    img.style.maxWidth = '100%';
+                    img.style.maxHeight = '380px';
+                    img.style.borderRadius = '4px';
+                    previewContainer.appendChild(img);
+                }
+                card.appendChild(previewContainer);
+
+                const infoGrid = document.createElement('div');
+                infoGrid.className = 'media-info-grid';
+                const infoItems = [
+                    { label: '格式', value: mediaInfo.type.toUpperCase() },
+                    { label: '尺寸', value: mediaInfo.dimensions },
+                    { label: '大小', value: DownloadManager.formatFileSize(mediaInfo.fileSize) },
+                    { label: '来源', value: mediaInfo.sourceCategory === 'sticker' ? '贴纸' : mediaInfo.sourceCategory === 'animation' ? 'GIF/动画' : mediaInfo.sourceCategory === 'document' ? '文件' : '视频' },
+                ];
+                if (mediaInfo.emoji) infoItems.push({ label: '关联符号', value: mediaInfo.emoji });
+                if (mediaInfo.setName) infoItems.push({ label: '套装', value: mediaInfo.setName });
+                infoItems.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'media-info-item';
+                    div.innerHTML = `<span class="info-label">${item.label}</span><span class="info-value">${item.value}</span>`;
+                    infoGrid.appendChild(div);
+                });
+                card.appendChild(infoGrid);
+
+                const actions = document.createElement('div');
+                actions.className = 'media-actions';
+
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'btn btn-primary btn-sm';
+                downloadBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> 下载原文件';
+                downloadBtn.addEventListener('click', () => {
+                    const ext = mediaInfo.type === 'tgs' ? 'tgs' : mediaInfo.type === 'webm' ? 'webm' : mediaInfo.type === 'mp4' ? 'mp4' : mediaInfo.type;
+                    DownloadManager.triggerDownload(mediaInfo.originalUrl, `sticker_${mediaInfo.fileId.slice(0,12)}.${ext}`);
+                    showToast('开始下载...');
+                });
+                actions.appendChild(downloadBtn);
+
+                if (mediaInfo.type === 'webp') {
+                    const convertBtn = document.createElement('button');
+                    convertBtn.className = 'btn btn-outline btn-sm';
+                    convertBtn.textContent = '转为 PNG 下载';
+                    convertBtn.addEventListener('click', async () => {
+                        convertBtn.textContent = '转换中...';
+                        convertBtn.disabled = true;
+                        try {
+                            const pngDataUrl = await DownloadManager.convertWebpToPng(mediaInfo.originalUrl);
+                            DownloadManager.triggerDownload(pngDataUrl, `sticker_${mediaInfo.fileId.slice(0,12)}.png`);
+                            showToast('PNG 下载开始');
+                        } catch (e) {
+                            showToast('转换失败: ' + e.message);
+                        }
+                        convertBtn.textContent = '转为 PNG 下载';
+                        convertBtn.disabled = false;
+                    });
+                    actions.appendChild(convertBtn);
+                }
+
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'btn btn-outline btn-sm';
+                copyBtn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制链接';
+                copyBtn.addEventListener('click', () => copyToClipboard(mediaInfo.originalUrl));
+                actions.appendChild(copyBtn);
+
+                if (mediaInfo.setName) {
+                    const setBtn = document.createElement('button');
+                    setBtn.className = 'btn btn-outline btn-sm';
+                    setBtn.textContent = '查看套装';
+                    setBtn.addEventListener('click', () => handleSetExpansion(card, mediaInfo.setName, setBtn));
+                    actions.appendChild(setBtn);
+                }
+                card.appendChild(actions);
+
+                const setExpansion = document.createElement('div');
+                setExpansion.className = 'set-expansion';
+                setExpansion.id = 'setExpansion-' + mediaInfo.fileId;
+                card.appendChild(setExpansion);
+
+                $mediaDisplayArea.insertBefore(card, $mediaDisplayArea.firstChild);
+                activeMediaCard = card;
+                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                updateHistoryUI();
+            }
+
+            // 套装展开逻辑
+            async function handleSetExpansion(card, setName, triggerBtn) {
+                const expansionEl = card.querySelector('.set-expansion');
+                if (!expansionEl) return;
+                if (expansionEl.classList.contains('open') && activeSetData && activeSetData.name === setName) {
+                    expansionEl.classList.remove('open');
+                    activeSetData = null;
+                    triggerBtn.textContent = '查看套装';
+                    return;
+                }
+                document.querySelectorAll('.set-expansion.open').forEach(el => el.classList.remove('open'));
+                expansionEl.classList.add('open');
+                expansionEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-tertiary);">加载套装中...</div>';
+                triggerBtn.textContent = '加载中...';
+                triggerBtn.disabled = true;
+                try {
+                    const setData = await app.downloadFullSet(setName);
+                    activeSetData = { name: setName, data: setData };
+                    renderSetGrid(expansionEl, setData, setName);
+                    triggerBtn.textContent = '收起套装';
+                } catch (e) {
+                    expansionEl.innerHTML = `<div style="text-align:center;padding:16px;color:var(--danger);">加载失败: ${e.message}</div>`;
+                    triggerBtn.textContent = '重试';
+                }
+                triggerBtn.disabled = false;
+            }
+
+            function renderSetGrid(container, setData, setName) {
+                container.innerHTML = '';
+                if (setData.title) {
+                    const titleEl = document.createElement('div');
+                    titleEl.style.cssText = 'font-weight:600;font-size:0.85rem;color:var(--text-primary);padding:0 4px;';
+                    titleEl.textContent = '套装: ' + setData.title + ' (' + setData.stickers.length + ' 个)';
+                    container.appendChild(titleEl);
+                }
+
+                const progressWrapper = document.createElement('div');
+                progressWrapper.className = 'zip-progress';
+                progressWrapper.style.display = 'none';
+                progressWrapper.innerHTML = '<span style="font-size:0.75rem;color:var(--text-secondary);">打包进度</span><div class="progress-track"><div class="progress-fill" id="zipProgressFill"></div></div><span style="font-size:0.75rem;color:var(--text-secondary);" id="zipProgressText">0%</span>';
+                container.appendChild(progressWrapper);
+
+                const grid = document.createElement('div');
+                grid.className = 'set-grid';
+                setData.stickers.forEach(sticker => {
+                    const item = document.createElement('div');
+                    item.className = 'set-sticker-item';
+
+                    if (sticker.type === 'webm' || sticker.type === 'mp4') {
+                        if (sticker.thumbUrl) {
+                            const img = document.createElement('img');
+                            img.src = sticker.thumbUrl;
+                            img.alt = 'Video sticker';
+                            img.loading = 'lazy';
+                            item.appendChild(img);
+                            const vidBadge = document.createElement('span');
+                            vidBadge.style.cssText = 'position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.7);color:#fff;border-radius:4px;padding:2px 5px;font-size:0.6rem;font-weight:700;';
+                            vidBadge.textContent = 'VID';
+                            item.appendChild(vidBadge);
+                        } else {
+                            const label = document.createElement('span');
+                            label.style.cssText = 'font-size:0.7rem;font-weight:600;color:var(--text-secondary);';
+                            label.textContent = sticker.type.toUpperCase();
+                            item.appendChild(label);
+                        }
+                    } else if (sticker.type === 'tgs') {
+                        if (sticker.thumbUrl) {
+                            const img = document.createElement('img');
+                            img.src = sticker.thumbUrl;
+                            img.alt = 'Animated sticker';
+                            img.loading = 'lazy';
+                            item.appendChild(img);
+                            const tgsBadge = document.createElement('span');
+                            tgsBadge.style.cssText = 'position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.7);color:#fff;border-radius:4px;padding:2px 5px;font-size:0.6rem;font-weight:700;';
+                            tgsBadge.textContent = 'TGS';
+                            item.appendChild(tgsBadge);
+                        } else {
+                            const label = document.createElement('span');
+                            label.style.cssText = 'font-size:0.7rem;font-weight:600;color:var(--text-secondary);';
+                            label.textContent = 'TGS';
+                            item.appendChild(label);
+                        }
+                    } else {
+                        const img = document.createElement('img');
+                        img.src = sticker.thumbUrl || sticker.url;
+                        img.alt = 'Static sticker';
+                        img.loading = 'lazy';
+                        item.appendChild(img);
+                    }
+
+                    if (sticker.emoji) {
+                        const emojiSpan = document.createElement('span');
+                        emojiSpan.className = 'set-sticker-emoji';
+                        emojiSpan.textContent = sticker.emoji;
+                        item.appendChild(emojiSpan);
+                    }
+
+                    item.title = '点击下载 ' + sticker.type.toUpperCase();
+                    item.addEventListener('click', () => {
+                        const ext = sticker.type === 'tgs' ? 'tgs' : sticker.type === 'webm' ? 'webm' : sticker.type === 'mp4' ? 'mp4' : 'webp';
+                        DownloadManager.triggerDownload(sticker.url, `sticker_${sticker.fileId.slice(0,10)}.${ext}`);
+                        showToast('下载: ' + sticker.type.toUpperCase());
+                    });
+                    grid.appendChild(item);
+                });
+                container.appendChild(grid);
+
+                const downloadAllBtn = document.createElement('button');
+                downloadAllBtn.className = 'btn btn-outline btn-sm';
+                downloadAllBtn.style.marginTop = '8px';
+                downloadAllBtn.textContent = '逐个下载全部 (' + setData.stickers.length + ' 个)';
+                downloadAllBtn.addEventListener('click', async () => {
+                    showToast('开始逐个下载...');
+                    for (let i = 0; i < setData.stickers.length; i++) {
+                        const s = setData.stickers[i];
+                        const ext = s.type === 'tgs' ? 'tgs' : s.type === 'webm' ? 'webm' : 'webp';
+                        await new Promise(r => setTimeout(r, i === 0 ? 100 : 500));
+                        DownloadManager.triggerDownload(s.url, `sticker_${s.fileId.slice(0,10)}.${ext}`);
+                    }
+                });
+                container.appendChild(downloadAllBtn);
+
+                const zipBtn = document.createElement('button');
+                zipBtn.className = 'btn btn-primary btn-sm';
+                zipBtn.style.marginTop = '8px';
+                zipBtn.textContent = '打包下载 (ZIP)';
+                zipBtn.addEventListener('click', () => createZipForSet(setData, progressWrapper, zipBtn));
+                container.appendChild(zipBtn);
+            }
+
+            // 打包函数 (修复空压缩包与重复线程)
+            async function createZipForSet(setData, progressWrapper, btn) {
+                if (isPacking) {
+                    showToast('正在打包中，请稍后');
+                    return;
+                }
+                if (typeof JSZip === 'undefined') {
+                    showToast('JSZip 库未加载，无法打包');
+                    return;
+                }
+                isPacking = true;
+                btn.disabled = true;
+                btn.textContent = '打包中...';
+                progressWrapper.style.display = 'flex';
+                const progressFill = progressWrapper.querySelector('#zipProgressFill');
+                const progressText = progressWrapper.querySelector('#zipProgressText');
+                const updateProgress = (percent) => {
+                    progressFill.style.width = percent + '%';
+                    progressText.textContent = percent + '%';
+                };
+                updateProgress(0);
+
+                const zip = new JSZip();
+                let completed = 0;
+                const total = setData.stickers.length;
+                let failed = 0;
+
+                try {
+                    for (const sticker of setData.stickers) {
+                        try {
+                            const response = await fetch(sticker.url);
+                            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                            const blob = await response.blob();
+                            const ext = sticker.type === 'tgs' ? 'tgs' : sticker.type === 'webm' ? 'webm' : sticker.type === 'mp4' ? 'mp4' : 'webp';
+                            zip.file(`sticker_${sticker.fileId.slice(0,10)}.${ext}`, blob);
+                        } catch (e) {
+                            failed++;
+                            console.warn('打包失败:', sticker.fileId, e.message);
+                        }
+                        completed++;
+                        updateProgress(Math.round((completed / total) * 100));
+                    }
+
+                    if (total - failed === 0) {
+                        showToast('所有文件获取失败，无法生成压缩包');
+                        return;
+                    }
+
+                    const zipBlob = await zip.generateAsync({ type: 'blob' });
+                    const url = URL.createObjectURL(zipBlob);
+                    DownloadManager.triggerDownload(url, `sticker_set_${Date.now()}.zip`);
+                    setTimeout(() => URL.revokeObjectURL(url), 5000);
+                    showToast(`打包完成 (成功${total - failed}/${total})`);
+                } catch (e) {
+                    showToast('打包失败: ' + e.message);
+                } finally {
+                    isPacking = false;
+                    btn.disabled = false;
+                    btn.textContent = '打包下载 (ZIP)';
+                    setTimeout(() => {
+                        progressWrapper.style.display = 'none';
+                    }, 4000);
+                }
+            }
+
+            function updateHistoryUI() {
+                if (app.mediaHistory.length === 0) {
+                    $historySection.style.display = 'none';
+                    return;
+                }
+                $historySection.style.display = 'flex';
+                $historyList.innerHTML = '';
+                app.mediaHistory.slice(0, 10).forEach((item) => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    const thumb = document.createElement('img');
+                    thumb.className = 'history-thumb';
+                    thumb.src = item.thumbnail || item.originalUrl;
+                    thumb.alt = 'thumb';
+                    thumb.loading = 'lazy';
+                    thumb.onerror = function() { this.src = item.originalUrl; };
+                    historyItem.appendChild(thumb);
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'history-info';
+                    infoDiv.innerHTML = `
+                        <span class="history-type">${item.type.toUpperCase()}</span>
+                        <span class="history-meta">${DownloadManager.formatFileSize(item.fileSize)} &middot; ${item.dimensions}</span>
+                    `;
+                    historyItem.appendChild(infoDiv);
+                    historyItem.addEventListener('click', () => {
+                        renderMediaCard(item);
+                        historyItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    });
+                    $historyList.appendChild(historyItem);
+                });
+            }
+
+            app.onInfoReceived = async (mediaInfo) => {
+                await renderMediaCard(mediaInfo);
+            };
+
+            $btnStart.addEventListener('click', () => {
+                const token = $tokenInput.value.trim();
+                if (!token) { showToast('请输入 Bot Token'); $tokenInput.focus(); return; }
+                if (!token.includes(':')) { showToast('Token 格式不正确'); return; }
+                app.start(token);
+                updateStatus('online', '正在连接...');
+                showToast('已启动监听');
+            });
+
+            $btnStop.addEventListener('click', () => {
+                app.stop();
+                updateStatus('offline', '已停止');
+                showToast('已停止监听');
+            });
+
+            const savedToken = TokenManager.get();
+            if (savedToken) {
+                $tokenInput.value = savedToken;
+                updateStatus('offline', '已加载令牌，点击开始');
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && activeSetData) {
+                    document.querySelectorAll('.set-expansion.open').forEach(el => el.classList.remove('open'));
+                    activeSetData = null;
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

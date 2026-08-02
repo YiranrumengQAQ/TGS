@@ -1,0 +1,2375 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
+    <title>Sticker Hub · Material 3</title>
+
+    <!-- Google Fonts: Roboto & Material Symbols -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0,1" />
+
+    <style>
+        /* ============================================
+               M3 Design Tokens (Light / Dark)
+               ============================================ */
+        :root {
+            --m3-ref-primary: #1A6CFF;
+            --m3-ref-on-primary: #FFFFFF;
+            --m3-ref-primary-container: #D9E2FF;
+            --m3-ref-on-primary-container: #001B3D;
+            --m3-ref-secondary: #575E71;
+            --m3-ref-on-secondary: #FFFFFF;
+            --m3-ref-secondary-container: #DBE2F9;
+            --m3-ref-on-secondary-container: #141B2C;
+            --m3-ref-surface: #F8F9FF;
+            --m3-ref-surface-dim: #D9DAE0;
+            --m3-ref-surface-variant: #E1E2EC;
+            --m3-ref-on-surface: #1A1B21;
+            --m3-ref-on-surface-variant: #434654;
+            --m3-ref-background: #F8F9FF;
+            --m3-ref-on-background: #1A1B21;
+            --m3-ref-error: #BA1A1A;
+            --m3-ref-on-error: #FFFFFF;
+            --m3-ref-error-container: #FFDAD6;
+            --m3-ref-on-error-container: #410002;
+            --m3-ref-outline: #747782;
+            --m3-ref-outline-variant: #C4C6D0;
+            --m3-ref-shadow: #000000;
+            --m3-ref-surface-tint: #1A6CFF;
+
+            /* 表面色阶 */
+            --m3-surface-1: #FFFFFF;
+            --m3-surface-2: #F8F9FF;
+            --m3-surface-3: #F0F2FA;
+
+            /* 排版 */
+            --m3-font: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+
+            /* 圆角 */
+            --m3-radius-xs: 4px;
+            --m3-radius-sm: 8px;
+            --m3-radius-md: 12px;
+            --m3-radius-lg: 16px;
+            --m3-radius-xl: 20px;
+            --m3-radius-full: 9999px;
+
+            /* 阴影 */
+            --m3-elevation-0: none;
+            --m3-elevation-1: 0 1px 2px 0 rgba(0, 0, 0, 0.08), 0 1px 3px 0 rgba(0, 0, 0, 0.06);
+            --m3-elevation-2: 0 2px 6px 0 rgba(0, 0, 0, 0.10), 0 1px 4px 0 rgba(0, 0, 0, 0.06);
+            --m3-elevation-3: 0 4px 12px 0 rgba(0, 0, 0, 0.12), 0 2px 6px 0 rgba(0, 0, 0, 0.06);
+            --m3-elevation-4: 0 8px 24px 0 rgba(0, 0, 0, 0.14), 0 4px 12px 0 rgba(0, 0, 0, 0.06);
+            --m3-elevation-5: 0 16px 40px 0 rgba(0, 0, 0, 0.16), 0 6px 16px 0 rgba(0, 0, 0, 0.08);
+
+            /* 过渡 */
+            --m3-duration-short: 0.15s;
+            --m3-duration-medium: 0.25s;
+            --m3-duration-long: 0.4s;
+            --m3-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+
+            /* 组件映射 (亮色) */
+            --md-sys-color-primary: var(--m3-ref-primary);
+            --md-sys-color-on-primary: var(--m3-ref-on-primary);
+            --md-sys-color-primary-container: var(--m3-ref-primary-container);
+            --md-sys-color-on-primary-container: var(--m3-ref-on-primary-container);
+            --md-sys-color-secondary: var(--m3-ref-secondary);
+            --md-sys-color-on-secondary: var(--m3-ref-on-secondary);
+            --md-sys-color-secondary-container: var(--m3-ref-secondary-container);
+            --md-sys-color-on-secondary-container: var(--m3-ref-on-secondary-container);
+            --md-sys-color-surface: var(--m3-ref-surface);
+            --md-sys-color-surface-dim: var(--m3-ref-surface-dim);
+            --md-sys-color-surface-variant: var(--m3-ref-surface-variant);
+            --md-sys-color-on-surface: var(--m3-ref-on-surface);
+            --md-sys-color-on-surface-variant: var(--m3-ref-on-surface-variant);
+            --md-sys-color-background: var(--m3-ref-background);
+            --md-sys-color-on-background: var(--m3-ref-on-background);
+            --md-sys-color-error: var(--m3-ref-error);
+            --md-sys-color-on-error: var(--m3-ref-on-error);
+            --md-sys-color-error-container: var(--m3-ref-error-container);
+            --md-sys-color-on-error-container: var(--m3-ref-on-error-container);
+            --md-sys-color-outline: var(--m3-ref-outline);
+            --md-sys-color-outline-variant: var(--m3-ref-outline-variant);
+            --md-sys-color-shadow: var(--m3-ref-shadow);
+            --md-sys-color-surface-tint: var(--m3-ref-surface-tint);
+
+            --md-sys-color-surface-container-lowest: #FFFFFF;
+            --md-sys-color-surface-container-low: #F4F5FA;
+            --md-sys-color-surface-container: #EDEEF5;
+            --md-sys-color-surface-container-high: #E6E8F0;
+            --md-sys-color-surface-container-highest: #D9DAE2;
+
+            /* 状态层叠色 */
+            --md-state-hover-primary: rgba(26, 108, 255, 0.08);
+            --md-state-focus-primary: rgba(26, 108, 255, 0.12);
+            --md-state-pressed-primary: rgba(26, 108, 255, 0.16);
+            --md-state-hover-surface: rgba(26, 27, 33, 0.04);
+            --md-state-focus-surface: rgba(26, 27, 33, 0.08);
+            --md-state-pressed-surface: rgba(26, 27, 33, 0.12);
+        }
+
+        [data-theme="dark"] {
+            --m3-ref-primary: #AAC7FF;
+            --m3-ref-on-primary: #002E6D;
+            --m3-ref-primary-container: #004AAD;
+            --m3-ref-on-primary-container: #D9E2FF;
+            --m3-ref-secondary: #BEC6DB;
+            --m3-ref-on-secondary: #282F42;
+            --m3-ref-secondary-container: #3F4559;
+            --m3-ref-on-secondary-container: #DBE2F9;
+            --m3-ref-surface: #14151D;
+            --m3-ref-surface-dim: #0A0B11;
+            --m3-ref-surface-variant: #434654;
+            --m3-ref-on-surface: #E2E3EA;
+            --m3-ref-on-surface-variant: #C4C6D0;
+            --m3-ref-background: #14151D;
+            --m3-ref-on-background: #E2E3EA;
+            --m3-ref-error: #F28B82;
+            --m3-ref-on-error: #601410;
+            --m3-ref-error-container: #8C1D18;
+            --m3-ref-on-error-container: #FCE8E6;
+            --m3-ref-outline: #8E909C;
+            --m3-ref-outline-variant: #434654;
+            --m3-ref-shadow: #000000;
+            --m3-ref-surface-tint: #AAC7FF;
+
+            --md-sys-color-primary: var(--m3-ref-primary);
+            --md-sys-color-on-primary: var(--m3-ref-on-primary);
+            --md-sys-color-primary-container: var(--m3-ref-primary-container);
+            --md-sys-color-on-primary-container: var(--m3-ref-on-primary-container);
+            --md-sys-color-secondary: var(--m3-ref-secondary);
+            --md-sys-color-on-secondary: var(--m3-ref-on-secondary);
+            --md-sys-color-secondary-container: var(--m3-ref-secondary-container);
+            --md-sys-color-on-secondary-container: var(--m3-ref-on-secondary-container);
+            --md-sys-color-surface: var(--m3-ref-surface);
+            --md-sys-color-surface-dim: var(--m3-ref-surface-dim);
+            --md-sys-color-surface-variant: var(--m3-ref-surface-variant);
+            --md-sys-color-on-surface: var(--m3-ref-on-surface);
+            --md-sys-color-on-surface-variant: var(--m3-ref-on-surface-variant);
+            --md-sys-color-background: var(--m3-ref-background);
+            --md-sys-color-on-background: var(--m3-ref-on-background);
+            --md-sys-color-error: var(--m3-ref-error);
+            --md-sys-color-on-error: var(--m3-ref-on-error);
+            --md-sys-color-error-container: var(--m3-ref-error-container);
+            --md-sys-color-on-error-container: var(--m3-ref-on-error-container);
+            --md-sys-color-outline: var(--m3-ref-outline);
+            --md-sys-color-outline-variant: var(--m3-ref-outline-variant);
+            --md-sys-color-shadow: var(--m3-ref-shadow);
+            --md-sys-color-surface-tint: var(--m3-ref-surface-tint);
+
+            --md-sys-color-surface-container-lowest: #0E0F15;
+            --md-sys-color-surface-container-low: #1C1D26;
+            --md-sys-color-surface-container: #21232D;
+            --md-sys-color-surface-container-high: #2B2E38;
+            --md-sys-color-surface-container-highest: #363944;
+
+            --md-state-hover-primary: rgba(170, 199, 255, 0.08);
+            --md-state-focus-primary: rgba(170, 199, 255, 0.12);
+            --md-state-pressed-primary: rgba(170, 199, 255, 0.16);
+            --md-state-hover-surface: rgba(226, 227, 234, 0.04);
+            --md-state-focus-surface: rgba(226, 227, 234, 0.08);
+            --md-state-pressed-surface: rgba(226, 227, 234, 0.12);
+        }
+
+        /* ============================================
+               Reset & Base
+               ============================================ */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--m3-font);
+            background: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            min-height: 100vh;
+            line-height: 1.5;
+            transition: background var(--m3-duration-long) var(--m3-easing-standard),
+                color var(--m3-duration-long) var(--m3-easing-standard);
+        }
+
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--md-sys-color-outline-variant);
+            border-radius: var(--m3-radius-full);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--md-sys-color-outline);
+        }
+
+        /* ============================================
+               App Shell
+               ============================================ */
+        .app-shell {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 16px 80px;
+            position: relative;
+        }
+
+        /* ============================================
+               Top App Bar (M3)
+               ============================================ */
+        .top-app-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0 8px;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--md-sys-color-background);
+            transition: background var(--m3-duration-long) var(--m3-easing-standard);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .top-app-bar::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--md-sys-color-outline-variant);
+            opacity: 0.3;
+        }
+
+        .app-bar-start {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .app-bar-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--m3-radius-md);
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .app-bar-icon .material-symbols-outlined {
+            font-size: 24px;
+        }
+
+        .app-bar-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: var(--md-sys-color-on-surface);
+            white-space: nowrap;
+        }
+        .app-bar-subtitle {
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--md-sys-color-on-surface-variant);
+            letter-spacing: 0.02em;
+            margin-top: -2px;
+        }
+
+        .app-bar-actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            color: var(--md-sys-color-on-surface-variant);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background var(--m3-duration-short) var(--m3-easing-standard),
+                color var(--m3-duration-short) var(--m3-easing-standard);
+            position: relative;
+            overflow: hidden;
+        }
+        .icon-btn:hover {
+            background: var(--md-state-hover-surface);
+        }
+        .icon-btn:active {
+            background: var(--md-state-pressed-surface);
+            transform: scale(0.92);
+        }
+        .icon-btn .material-symbols-outlined {
+            font-size: 24px;
+        }
+
+        /* ============================================
+               M3 Card
+               ============================================ */
+        .m3-card {
+            background: var(--md-sys-color-surface-container-lowest);
+            border-radius: var(--m3-radius-lg);
+            box-shadow: var(--m3-elevation-1);
+            transition: box-shadow var(--m3-duration-medium) var(--m3-easing-standard),
+                background var(--m3-duration-long) var(--m3-easing-standard),
+                transform var(--m3-duration-short) var(--m3-easing-standard);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-color: rgba(116, 119, 130, 0.12);
+            overflow: hidden;
+        }
+        .m3-card:hover {
+            box-shadow: var(--m3-elevation-2);
+        }
+        .m3-card.elevated {
+            box-shadow: var(--m3-elevation-2);
+        }
+        .m3-card.elevated:hover {
+            box-shadow: var(--m3-elevation-3);
+        }
+
+        .m3-card-content {
+            padding: 20px 20px 16px;
+        }
+        .m3-card-actions {
+            padding: 8px 16px 16px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            border-top: 1px solid var(--md-sys-color-outline-variant);
+            border-color: rgba(116, 119, 130, 0.08);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .card-header-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--m3-radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+        }
+        .card-header-icon .material-symbols-outlined {
+            font-size: 20px;
+        }
+        .card-header-text {
+            flex: 1;
+            min-width: 0;
+        }
+        .card-header-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface);
+        }
+        .card-header-sub {
+            font-size: 0.75rem;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        /* ============================================
+               M3 Text Field (Outlined)
+               ============================================ */
+        .m3-text-field {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: var(--md-sys-color-surface-container-lowest);
+            border-radius: var(--m3-radius-sm);
+            border: 1.5px solid var(--md-sys-color-outline);
+            transition: border-color var(--m3-duration-short) var(--m3-easing-standard),
+                box-shadow var(--m3-duration-short) var(--m3-easing-standard);
+            flex: 1;
+            min-width: 0;
+        }
+        .m3-text-field:focus-within {
+            border-color: var(--md-sys-color-primary);
+            box-shadow: 0 0 0 3px var(--md-sys-color-primary-container);
+        }
+        .m3-text-field .m3-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 12px 14px;
+            font-size: 0.875rem;
+            font-family: var(--m3-font);
+            color: var(--md-sys-color-on-surface);
+            outline: none;
+            min-width: 0;
+            font-feature-settings: 'tnum';
+        }
+        .m3-text-field .m3-input::placeholder {
+            color: var(--md-sys-color-on-surface-variant);
+            opacity: 0.6;
+        }
+        .m3-text-field .m3-input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .m3-text-field .field-suffix {
+            display: flex;
+            align-items: center;
+            padding-right: 8px;
+            flex-shrink: 0;
+        }
+        .m3-text-field .field-suffix .icon-btn {
+            width: 32px;
+            height: 32px;
+        }
+        .m3-text-field .field-suffix .icon-btn .material-symbols-outlined {
+            font-size: 20px;
+        }
+
+        /* ============================================
+               M3 Buttons
+               ============================================ */
+        .m3-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: var(--m3-radius-full);
+            font-family: var(--m3-font);
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            border: none;
+            cursor: pointer;
+            transition: all var(--m3-duration-short) var(--m3-easing-standard);
+            user-select: none;
+            text-decoration: none;
+            min-height: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .m3-btn:active {
+            transform: scale(0.96);
+        }
+        .m3-btn .material-symbols-outlined {
+            font-size: 20px;
+        }
+
+        .m3-btn-filled {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            box-shadow: var(--m3-elevation-1);
+        }
+        .m3-btn-filled:hover {
+            background: color-mix(in srgb, var(--md-sys-color-primary) 92%, #000);
+            box-shadow: var(--m3-elevation-2);
+        }
+        .m3-btn-filled:active {
+            background: color-mix(in srgb, var(--md-sys-color-primary) 84%, #000);
+        }
+
+        .m3-btn-tonal {
+            background: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+        .m3-btn-tonal:hover {
+            background: color-mix(in srgb, var(--md-sys-color-secondary-container) 92%, #000);
+        }
+        .m3-btn-tonal:active {
+            background: color-mix(in srgb, var(--md-sys-color-secondary-container) 84%, #000);
+        }
+
+        .m3-btn-outlined {
+            background: transparent;
+            color: var(--md-sys-color-primary);
+            border: 1.5px solid var(--md-sys-color-outline);
+        }
+        .m3-btn-outlined:hover {
+            background: var(--md-state-hover-primary);
+            border-color: var(--md-sys-color-primary);
+        }
+        .m3-btn-outlined:active {
+            background: var(--md-state-pressed-primary);
+        }
+
+        .m3-btn-text {
+            background: transparent;
+            color: var(--md-sys-color-primary);
+        }
+        .m3-btn-text:hover {
+            background: var(--md-state-hover-primary);
+        }
+        .m3-btn-text:active {
+            background: var(--md-state-pressed-primary);
+        }
+
+        .m3-btn-error {
+            background: var(--md-sys-color-error);
+            color: var(--md-sys-color-on-error);
+        }
+        .m3-btn-error:hover {
+            background: color-mix(in srgb, var(--md-sys-color-error) 92%, #000);
+        }
+        .m3-btn-error:active {
+            background: color-mix(in srgb, var(--md-sys-color-error) 84%, #000);
+        }
+
+        .m3-btn-sm {
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            min-height: 32px;
+        }
+        .m3-btn-sm .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        .m3-btn-xs {
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            min-height: 28px;
+            border-radius: var(--m3-radius-sm);
+        }
+        .m3-btn-xs .material-symbols-outlined {
+            font-size: 16px;
+        }
+
+        .m3-btn-icon {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: 50%;
+            justify-content: center;
+            flex-shrink: 0;
+            min-height: auto;
+        }
+
+        .m3-btn[disabled] {
+            opacity: 0.38;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        /* ============================================
+               Status Chip / Indicator
+               ============================================ */
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 14px 4px 10px;
+            border-radius: var(--m3-radius-full);
+            font-size: 0.78rem;
+            font-weight: 500;
+            background: var(--md-sys-color-surface-container);
+            color: var(--md-sys-color-on-surface-variant);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            transition: all var(--m3-duration-medium) var(--m3-easing-standard);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all var(--m3-duration-medium) var(--m3-easing-standard);
+        }
+        .status-dot.offline {
+            background: var(--md-sys-color-outline);
+        }
+        .status-dot.online {
+            background: #2E7D32;
+            box-shadow: 0 0 8px rgba(46, 125, 50, 0.5);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        .status-dot.error-state {
+            background: var(--md-sys-color-error);
+            box-shadow: 0 0 8px rgba(186, 26, 26, 0.5);
+            animation: pulse-dot 1.2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .status-text {
+            font-size: 0.78rem;
+            font-weight: 450;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+        .status-time {
+            font-size: 0.7rem;
+            color: var(--md-sys-color-on-surface-variant);
+            opacity: 0.6;
+            margin-left: 4px;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid var(--md-sys-color-outline-variant);
+            border-color: rgba(116, 119, 130, 0.10);
+        }
+
+        /* ============================================
+               Media Card (M3)
+               ============================================ */
+        .media-card-m3 {
+            background: var(--md-sys-color-surface-container-lowest);
+            border-radius: var(--m3-radius-lg);
+            box-shadow: var(--m3-elevation-2);
+            overflow: hidden;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-color: rgba(116, 119, 130, 0.10);
+            transition: all var(--m3-duration-medium) var(--m3-easing-standard);
+            animation: slideUpM3 0.45s cubic-bezier(0.2, 0, 0, 1);
+            margin-bottom: 16px;
+        }
+        .media-card-m3:hover {
+            box-shadow: var(--m3-elevation-3);
+        }
+
+        @keyframes slideUpM3 {
+            from {
+                opacity: 0;
+                transform: translateY(24px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .media-preview {
+            position: relative;
+            background: var(--md-sys-color-surface-container);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 160px;
+            max-height: 400px;
+            overflow: hidden;
+            background-image:
+                linear-gradient(45deg, var(--md-sys-color-outline-variant) 25%, transparent 25%),
+                linear-gradient(-45deg, var(--md-sys-color-outline-variant) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, var(--md-sys-color-outline-variant) 75%),
+                linear-gradient(-45deg, transparent 75%, var(--md-sys-color-outline-variant) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            background-color: var(--md-sys-color-surface-container-low);
+            border-radius: var(--m3-radius-lg) var(--m3-radius-lg) 0 0;
+        }
+        .media-preview img,
+        .media-preview video {
+            max-width: 100%;
+            max-height: 360px;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+            border-radius: 4px;
+        }
+        .media-preview video {
+            width: 100%;
+            max-height: 380px;
+            outline: none;
+            background: #000;
+        }
+
+        .media-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 2;
+            padding: 4px 12px;
+            border-radius: var(--m3-radius-full);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            background: var(--md-sys-color-surface-container);
+            color: var(--md-sys-color-on-surface-variant);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            box-shadow: var(--m3-elevation-1);
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .media-badge.animated {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            border-color: transparent;
+        }
+        .media-badge.video {
+            background: #FFF3E0;
+            color: #B76E00;
+            border-color: transparent;
+        }
+        [data-theme="dark"] .media-badge.video {
+            background: #3E2C00;
+            color: #FFB74D;
+        }
+
+        .media-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 8px 16px;
+            padding: 14px 20px;
+            border-top: 1px solid var(--md-sys-color-outline-variant);
+            border-color: rgba(116, 119, 130, 0.08);
+        }
+        .media-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+        .media-info-item .info-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--md-sys-color-on-surface-variant);
+            opacity: 0.7;
+            font-weight: 500;
+        }
+        .media-info-item .info-value {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface);
+            font-feature-settings: 'tnum';
+        }
+
+        .media-actions-m3 {
+            display: flex;
+            gap: 6px;
+            padding: 10px 16px 14px;
+            flex-wrap: wrap;
+            border-top: 1px solid var(--md-sys-color-outline-variant);
+            border-color: rgba(116, 119, 130, 0.08);
+        }
+
+        /* TGS 占位 */
+        .tgs-placeholder-m3 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 32px 16px;
+            z-index: 1;
+        }
+        .tgs-placeholder-m3 .lottie-box {
+            width: 120px;
+            height: 120px;
+        }
+        .tgs-spinner-ring {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 3px dashed var(--md-sys-color-primary);
+            animation: spin-slow-m3 6s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tgs-spinner-ring-inner {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--md-sys-color-primary);
+            animation: pulse-soft-m3 2s ease-in-out infinite;
+        }
+        @keyframes spin-slow-m3 {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes pulse-soft-m3 {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.6);
+                opacity: 1;
+            }
+        }
+        .tgs-label-m3 {
+            font-size: 0.75rem;
+            color: var(--md-sys-color-on-surface-variant);
+            font-weight: 450;
+            letter-spacing: 0.02em;
+        }
+
+        /* ============================================
+               Set Expansion (M3)
+               ============================================ */
+        .set-expansion-m3 {
+            border-top: 1px solid var(--md-sys-color-outline-variant);
+            border-color: rgba(116, 119, 130, 0.08);
+            padding: 16px 20px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            background: var(--md-sys-color-surface-container-low);
+            transition: all var(--m3-duration-medium) var(--m3-easing-standard);
+        }
+        .set-expansion-m3.open {
+            display: flex;
+            animation: slideUpM3 0.3s ease;
+        }
+
+        .set-grid-m3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 4px 0;
+        }
+        .set-grid-m3::-webkit-scrollbar {
+            width: 4px;
+        }
+        .set-grid-m3::-webkit-scrollbar-thumb {
+            background: var(--md-sys-color-outline-variant);
+            border-radius: var(--m3-radius-full);
+        }
+
+        .set-sticker-item-m3 {
+            background: var(--md-sys-color-surface-container-lowest);
+            border-radius: var(--m3-radius-sm);
+            padding: 6px 4px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            border: 1.5px solid var(--md-sys-color-outline-variant);
+            border-color: rgba(116, 119, 130, 0.12);
+            transition: all var(--m3-duration-short) var(--m3-easing-standard);
+            box-shadow: var(--m3-elevation-0);
+            position: relative;
+        }
+        .set-sticker-item-m3:hover {
+            border-color: var(--md-sys-color-primary);
+            box-shadow: var(--m3-elevation-1);
+            transform: translateY(-2px);
+        }
+        .set-sticker-item-m3:active {
+            transform: scale(0.94);
+        }
+        .set-sticker-item-m3 img {
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
+            border-radius: var(--m3-radius-xs);
+            background-image:
+                linear-gradient(45deg, var(--md-sys-color-outline-variant) 25%, transparent 25%),
+                linear-gradient(-45deg, var(--md-sys-color-outline-variant) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, var(--md-sys-color-outline-variant) 75%),
+                linear-gradient(-45deg, transparent 75%, var(--md-sys-color-outline-variant) 75%);
+            background-size: 10px 10px;
+            background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
+            background-color: var(--md-sys-color-surface-container-low);
+        }
+        .set-sticker-item-m3 .set-emoji {
+            font-size: 0.75rem;
+            line-height: 1;
+        }
+        .set-sticker-item-m3 .set-badge-tiny {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            font-size: 0.5rem;
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 1px 5px;
+            border-radius: var(--m3-radius-xs);
+            letter-spacing: 0.04em;
+        }
+
+        .zip-progress-m3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 12px;
+            background: var(--md-sys-color-surface-container);
+            border-radius: var(--m3-radius-sm);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-color: rgba(116, 119, 130, 0.10);
+        }
+        .zip-progress-m3 .progress-track {
+            flex: 1;
+            height: 4px;
+            background: var(--md-sys-color-outline-variant);
+            border-radius: var(--m3-radius-full);
+            overflow: hidden;
+        }
+        .zip-progress-m3 .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--md-sys-color-primary);
+            border-radius: var(--m3-radius-full);
+            transition: width 0.25s ease;
+        }
+        .zip-progress-m3 .progress-label {
+            font-size: 0.7rem;
+            color: var(--md-sys-color-on-surface-variant);
+            font-weight: 500;
+            min-width: 36px;
+            text-align: right;
+            font-feature-settings: 'tnum';
+        }
+
+        /* ============================================
+               Empty State (M3)
+               ============================================ */
+        .empty-state-m3 {
+            text-align: center;
+            padding: 48px 20px 40px;
+            color: var(--md-sys-color-on-surface-variant);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .empty-state-m3 .empty-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: var(--md-sys-color-surface-container);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--md-sys-color-outline-variant);
+        }
+        .empty-state-m3 .empty-icon .material-symbols-outlined {
+            font-size: 32px;
+            color: var(--md-sys-color-on-surface-variant);
+            opacity: 0.5;
+        }
+        .empty-state-m3 .empty-title {
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--md-sys-color-on-surface);
+        }
+        .empty-state-m3 .empty-desc {
+            font-size: 0.82rem;
+            max-width: 320px;
+            line-height: 1.6;
+            opacity: 0.7;
+        }
+
+        /* ============================================
+               History (M3)
+               ============================================ */
+        .history-section-m3 {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .history-section-m3 .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4px;
+        }
+        .history-section-m3 .section-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--md-sys-color-on-surface-variant);
+            font-weight: 500;
+            opacity: 0.7;
+        }
+        .history-section-m3 .section-action {
+            font-size: 0.7rem;
+            color: var(--md-sys-color-primary);
+            cursor: pointer;
+            font-weight: 500;
+            background: none;
+            border: none;
+            font-family: var(--m3-font);
+        }
+        .history-section-m3 .section-action:hover {
+            text-decoration: underline;
+        }
+
+        .history-list-m3 {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .history-item-m3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            background: var(--md-sys-color-surface-container-lowest);
+            border-radius: var(--m3-radius-sm);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-color: rgba(116, 119, 130, 0.08);
+            cursor: pointer;
+            transition: all var(--m3-duration-short) var(--m3-easing-standard);
+            box-shadow: var(--m3-elevation-0);
+        }
+        .history-item-m3:hover {
+            border-color: var(--md-sys-color-primary);
+            box-shadow: var(--m3-elevation-1);
+            background: var(--md-sys-color-surface-container);
+        }
+        .history-item-m3:active {
+            transform: scale(0.98);
+        }
+        .history-thumb-m3 {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--m3-radius-xs);
+            object-fit: contain;
+            flex-shrink: 0;
+            background-image:
+                linear-gradient(45deg, var(--md-sys-color-outline-variant) 25%, transparent 25%),
+                linear-gradient(-45deg, var(--md-sys-color-outline-variant) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, var(--md-sys-color-outline-variant) 75%),
+                linear-gradient(-45deg, transparent 75%, var(--md-sys-color-outline-variant) 75%);
+            background-size: 8px 8px;
+            background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+            background-color: var(--md-sys-color-surface-container-low);
+        }
+        .history-info-m3 {
+            flex: 1;
+            min-width: 0;
+        }
+        .history-type-m3 {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--md-sys-color-primary);
+        }
+        .history-meta-m3 {
+            font-size: 0.7rem;
+            color: var(--md-sys-color-on-surface-variant);
+            opacity: 0.6;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ============================================
+               M3 Snackbar (Toast)
+               ============================================ */
+        .snackbar-container {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+            max-width: 90vw;
+            width: auto;
+        }
+        .snackbar {
+            padding: 12px 22px;
+            border-radius: var(--m3-radius-sm);
+            font-size: 0.82rem;
+            font-weight: 450;
+            background: var(--md-sys-color-surface-container-high);
+            color: var(--md-sys-color-on-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            box-shadow: var(--m3-elevation-3);
+            animation: snackbarIn 0.35s cubic-bezier(0.2, 0, 0, 1),
+                snackbarOut 0.3s 2.2s cubic-bezier(0.2, 0, 0, 1) forwards;
+            pointer-events: auto;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        @keyframes snackbarIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.94);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        @keyframes snackbarOut {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-8px) scale(0.94);
+            }
+        }
+
+        /* ============================================
+               Responsive
+               ============================================ */
+        @media (max-width: 640px) {
+            .app-shell {
+                padding: 0 12px 64px;
+            }
+            .top-app-bar {
+                padding: 8px 0 6px;
+            }
+            .app-bar-title {
+                font-size: 1rem;
+            }
+            .app-bar-subtitle {
+                font-size: 0.6rem;
+            }
+            .m3-card-content {
+                padding: 16px 16px 12px;
+            }
+            .media-preview {
+                min-height: 120px;
+                max-height: 260px;
+            }
+            .media-info-grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 10px 14px;
+            }
+            .set-grid-m3 {
+                grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+                max-height: 220px;
+            }
+            .set-sticker-item-m3 img {
+                width: 44px;
+                height: 44px;
+            }
+            .m3-text-field .m3-input {
+                padding: 10px 12px;
+                font-size: 0.8rem;
+            }
+            .m3-btn {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+                min-height: 36px;
+            }
+            .m3-btn-sm {
+                padding: 4px 12px;
+                font-size: 0.72rem;
+                min-height: 28px;
+            }
+            .snackbar {
+                font-size: 0.75rem;
+                padding: 10px 16px;
+            }
+            .media-actions-m3 {
+                gap: 4px;
+                padding: 8px 12px 12px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .app-bar-title {
+                font-size: 0.9rem;
+            }
+            .app-bar-icon {
+                width: 34px;
+                height: 34px;
+            }
+            .app-bar-icon .material-symbols-outlined {
+                font-size: 20px;
+            }
+            .m3-card-content {
+                padding: 12px 12px 10px;
+            }
+        }
+
+        /* ============================================
+               Utilities
+               ============================================ */
+        .gap-1 {
+            gap: 4px;
+        }
+        .gap-2 {
+            gap: 8px;
+        }
+        .gap-3 {
+            gap: 12px;
+        }
+        .flex {
+            display: flex;
+        }
+        .flex-col {
+            flex-direction: column;
+        }
+        .items-center {
+            align-items: center;
+        }
+        .justify-between {
+            justify-content: space-between;
+        }
+        .flex-1 {
+            flex: 1;
+        }
+        .shrink-0 {
+            flex-shrink: 0;
+        }
+        .w-full {
+            width: 100%;
+        }
+        .mt-1 {
+            margin-top: 4px;
+        }
+        .mt-2 {
+            margin-top: 8px;
+        }
+        .mt-3 {
+            margin-top: 12px;
+        }
+        .mb-2 {
+            margin-bottom: 8px;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-muted {
+            color: var(--md-sys-color-on-surface-variant);
+            opacity: 0.7;
+        }
+        .text-sm {
+            font-size: 0.78rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- ==========================================
+    APP SHELL
+    ========================================== -->
+    <div class="app-shell">
+
+        <!-- TOP APP BAR -->
+        <header class="top-app-bar">
+            <div class="app-bar-start">
+                <div class="app-bar-icon">
+                    <span class="material-symbols-outlined">sticker</span>
+                </div>
+                <div>
+                    <div class="app-bar-title">Sticker Hub</div>
+                    <div class="app-bar-subtitle">Telegram · Material 3</div>
+                </div>
+            </div>
+            <div class="app-bar-actions">
+                <button class="icon-btn" id="themeToggle" aria-label="切换主题">
+                    <span class="material-symbols-outlined" id="themeIcon">dark_mode</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- TOKEN SETUP CARD -->
+        <div class="m3-card elevated" style="margin-bottom:16px;">
+            <div class="m3-card-content">
+                <div class="card-header">
+                    <div class="card-header-icon">
+                        <span class="material-symbols-outlined">key</span>
+                    </div>
+                    <div class="card-header-text">
+                        <div class="card-header-title">Bot 令牌</div>
+                        <div class="card-header-sub">输入 Token 开始接收贴纸</div>
+                    </div>
+                </div>
+
+                <div class="flex gap-2" style="flex-wrap:wrap;">
+                    <div class="m3-text-field flex-1" style="min-width:180px;">
+                        <input type="password" class="m3-input" id="tokenInput"
+                        placeholder="1234567890:ABCdefGHIjklMNOpqrsTUVwxyz"
+                        autocomplete="off" spellcheck="false" />
+                        <div class="field-suffix">
+                            <button class="icon-btn" id="tokenVisBtn" type="button" aria-label="显示/隐藏令牌">
+                                <span class="material-symbols-outlined" id="eyeIcon">visibility_off</span>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="m3-btn m3-btn-filled" id="btnStart">
+                        <span class="material-symbols-outlined">play_arrow</span> 监听
+                    </button>
+                    <button class="m3-btn m3-btn-error" id="btnStop" style="display:none;">
+                        <span class="material-symbols-outlined">stop</span> 停止
+                    </button>
+                </div>
+
+                <div class="status-row">
+                    <div class="status-chip">
+                        <span class="status-dot offline" id="statusDot"></span>
+                        <span class="status-text" id="statusText">未连接</span>
+                    </div>
+                    <span style="flex:1;"></span>
+                    <span class="status-time" id="lastPollTime"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MEDIA DISPLAY AREA -->
+        <div id="mediaDisplayArea">
+            <!-- 空状态 (由 JS 控制隐藏) -->
+            <div class="m3-card" id="emptyState" style="margin-bottom:12px;">
+                <div class="empty-state-m3">
+                    <div class="empty-icon">
+                        <span class="material-symbols-outlined">image</span>
+                    </div>
+                    <div class="empty-title">等待媒体内容</div>
+                    <div class="empty-desc">向你的 Bot 发送贴纸、GIF 或动画，它们将自动出现在这里。</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HISTORY SECTION -->
+        <div class="history-section-m3" id="historySection" style="display:none;">
+            <div class="section-head">
+                <span class="section-label">最近记录</span>
+                <button class="section-action" id="clearHistoryBtn" style="display:none;">清除全部</button>
+            </div>
+            <div class="history-list-m3" id="historyList"></div>
+        </div>
+    </div>
+
+    <!-- SNACKBAR CONTAINER -->
+    <div class="snackbar-container" id="snackbarContainer"></div>
+
+    <!-- ==========================================
+    DEPENDENCIES
+    ========================================== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js">
+    </script>
+
+    <!-- ==========================================
+    APPLICATION LOGIC
+    ========================================== -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================
+            // 1. Token 管理 (原样保留)
+            // ============================================
+            const TokenManager = {
+                salt: 'SuperSecret_TgSticker_2026',
+                save: function(token) {
+                    const encrypted = btoa(encodeURIComponent(token + this.salt));
+                    localStorage.setItem('tg_bot_token', encrypted);
+                },
+                get: function() {
+                    const encrypted = localStorage.getItem('tg_bot_token');
+                    if (!encrypted) return null;
+                    try {
+                        const decrypted = decodeURIComponent(atob(encrypted));
+                        return decrypted.replace(this.salt, '');
+                    } catch (_) { return null; }
+                },
+                clear: function() {
+                    localStorage.removeItem('tg_bot_token');
+                }
+            };
+
+            // ============================================
+            // 2. Telegram Bot Core (原样保留)
+            // ============================================
+            class TGBotCore {
+                constructor(token) {
+                    this.token = token;
+                    this.apiBase = `https://api.telegram.org/bot${token}`;
+                    this.fileApiBase = `https://api.telegram.org/file/bot${token}`;
+                    this.lastUpdateId = 0;
+                    this.isPolling = false;
+                    this.consecutiveErrors = 0;
+                    this.pollTimeoutId = null;
+                }
+
+                async request(method, params = {}, timeoutMs = 25000) {
+                    const controller = new AbortController();
+                    const timer = setTimeout(() => controller.abort(), timeoutMs);
+                    try {
+                        const url = new URL(`${this.apiBase}/${method}`);
+                        Object.keys(params).forEach(k => url.searchParams.append(k, params[k]));
+                        const resp = await fetch(url, { signal: controller.signal });
+                        const data = await resp.json();
+                        if (!data.ok) {
+                            const err = new Error(`TG API: ${data.description}`);
+                            err.code = data.error_code;
+                            err.description = data.description;
+                            throw err;
+                        }
+                        return data.result;
+                    } finally {
+                        clearTimeout(timer);
+                    }
+                }
+
+                async getFileUrl(fileId) {
+                    const file = await this.request('getFile', { file_id: fileId });
+                    return `${this.fileApiBase}/${file.file_path}`;
+                }
+
+                async getStickerSet(setName) {
+                    if (!setName) return null;
+                    return await this.request('getStickerSet', { name: setName });
+                }
+            }
+
+            // ============================================
+            // 3. Media Parser (原样保留)
+            // ============================================
+            const MediaParser = {
+                async parseMessage(botCore, message) {
+                    let mediaData = null;
+                    let type = 'unknown';
+                    let sourceCategory = 'unknown';
+
+                    if (message.sticker) {
+                        mediaData = message.sticker;
+                        sourceCategory = 'sticker';
+                        if (mediaData.is_animated) type = 'tgs';
+                        else if (mediaData.is_video) type = 'webm';
+                        else type = 'webp';
+                    } else if (message.animation) {
+                        mediaData = message.animation;
+                        sourceCategory = 'animation';
+                        type = (mediaData.mime_type === 'video/mp4') ? 'mp4' : 'gif';
+                    } else if (message.document && message.document.mime_type && message.document.mime_type.includes(
+                            'image')) {
+                        mediaData = message.document;
+                        sourceCategory = 'document';
+                        type = mediaData.mime_type.split('/')[1] || 'unknown';
+                    } else if (message.video) {
+                        mediaData = message.video;
+                        sourceCategory = 'video';
+                        type = 'mp4';
+                    }
+
+                    if (!mediaData) return null;
+
+                    const fileUrl = await botCore.getFileUrl(mediaData.file_id);
+                    let thumbnail = null;
+                    if (mediaData.thumbnail) {
+                        try {
+                            thumbnail = await botCore.getFileUrl(mediaData.thumbnail.file_id);
+                        } catch (_) {}
+                    }
+
+                    return {
+                        fileId: mediaData.file_id,
+                        type: type,
+                        originalUrl: fileUrl,
+                        emoji: mediaData.emoji || null,
+                        setName: mediaData.set_name || null,
+                        fileSize: mediaData.file_size || null,
+                        dimensions: `${mediaData.width || '?'}×${mediaData.height || '?'}`,
+                        mimeType: mediaData.mime_type || null,
+                        sourceCategory: sourceCategory,
+                        thumbnail: thumbnail,
+                        timestamp: Date.now(),
+                    };
+                }
+            };
+
+            // ============================================
+            // 4. Download Manager (原样保留)
+            // ============================================
+            const DownloadManager = {
+                async convertWebpToPng(webpUrl) {
+                    return new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.crossOrigin = 'Anonymous';
+                        img.onload = () => {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0);
+                            try {
+                                resolve(canvas.toDataURL('image/png'));
+                            } catch (_) {
+                                reject(new Error('Canvas 跨域限制'));
+                            }
+                        };
+                        img.onerror = () => reject(new Error('图片加载失败'));
+                        img.src = webpUrl;
+                    });
+                },
+
+                triggerDownload(url, filename) {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(() => document.body.removeChild(a), 300);
+                },
+
+                formatFileSize(bytes) {
+                    if (!bytes) return '未知';
+                    if (bytes < 1024) return bytes + ' B';
+                    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+                    return (bytes / 1048576).toFixed(2) + ' MB';
+                }
+            };
+
+            // ============================================
+            // 5. TGS Renderer (原样保留)
+            // ============================================
+            const TGSRenderer = {
+                lottieAvailable: typeof lottie !== 'undefined',
+
+                async renderToContainer(containerEl, tgsUrl) {
+                    if (!this.lottieAvailable) {
+                        this._showFallback(containerEl);
+                        return false;
+                    }
+                    try {
+                        const resp = await fetch(tgsUrl);
+                        if (!resp.ok) throw new Error('Fetch TGS failed');
+                        const compressed = await resp.arrayBuffer();
+                        const decompressed = await this._decompressGzip(compressed);
+                        const jsonText = new TextDecoder().decode(decompressed);
+                        const animationData = JSON.parse(jsonText);
+
+                        containerEl.innerHTML = '';
+                        const animContainer = document.createElement('div');
+                        animContainer.style.width = '140px';
+                        animContainer.style.height = '140px';
+                        containerEl.appendChild(animContainer);
+
+                        lottie.loadAnimation({
+                            container: animContainer,
+                            animationData: animationData,
+                            renderer: 'svg',
+                            loop: true,
+                            autoplay: true,
+                        });
+                        return true;
+                    } catch (e) {
+                        console.warn('TGS 渲染失败:', e.message);
+                        this._showFallback(containerEl);
+                        return false;
+                    }
+                },
+
+                async _decompressGzip(compressed) {
+                    if (typeof DecompressionStream !== 'undefined') {
+                        const ds = new DecompressionStream('gzip');
+                        const writer = ds.writable.getWriter();
+                        writer.write(compressed);
+                        writer.close();
+                        const reader = ds.readable.getReader();
+                        const chunks = [];
+                        while (true) {
+                            const { done, value } = await reader.read();
+                            if (done) break;
+                            chunks.push(value);
+                        }
+                        const total = chunks.reduce((a, c) => a + c.length, 0);
+                        const result = new Uint8Array(total);
+                        let offset = 0;
+                        for (const chunk of chunks) {
+                            result.set(chunk, offset);
+                            offset += chunk.length;
+                        }
+                        return result;
+                    } else {
+                        if (typeof pako !== 'undefined') {
+                            return pako.ungzip(new Uint8Array(compressed));
+                        }
+                        throw new Error('No decompression');
+                    }
+                },
+
+                _showFallback(containerEl) {
+                    containerEl.innerHTML = `
+                            <div class="tgs-spinner-ring">
+                                <div class="tgs-spinner-ring-inner"></div>
+                            </div>
+                            <span class="tgs-label-m3">Lottie · TGS</span>
+                        `;
+                }
+            };
+
+            // ============================================
+            // 6. Core Controller (原逻辑 + 去重)
+            // ============================================
+            class TGStickerApp {
+                constructor() {
+                    this.bot = null;
+                    this.mediaHistory = [];
+                    this.maxHistory = 30;
+                    this.processedFileIds = new Set();
+                    this.onInfoReceived = null;
+                    this.onStatusChange = null;
+                    this.onError = null;
+                    this._visibilityHandler = null;
+                }
+
+                start(token) {
+                    TokenManager.save(token);
+                    this.bot = new TGBotCore(token);
+                    this.bot.isPolling = true;
+                    this.bot.consecutiveErrors = 0;
+                    this.processedFileIds.clear();
+                    this._startPolling();
+                    this._setupVisibilityListener();
+                    this._notifyStatus('online', '监听中');
+                }
+
+                stop() {
+                    if (this.bot) this.bot.isPolling = false;
+                    this.bot = null;
+                    this._clearTimers();
+                    this._notifyStatus('offline', '已停止');
+                }
+
+                _startPolling() {
+                    this._pollLoop().catch(() => {});
+                }
+
+                async _pollLoop() {
+                    while (this.bot && this.bot.isPolling) {
+                        try {
+                            const updates = await this.bot.request('getUpdates', {
+                                offset: this.bot.lastUpdateId + 1,
+                                timeout: 20,
+                            }, 30000);
+                            this.bot.consecutiveErrors = 0;
+                            this._notifyStatus('online', '监听中');
+
+                            for (let update of updates) {
+                                this.bot.lastUpdateId = update.update_id;
+                                if (update.message) {
+                                    try {
+                                        const mediaInfo = await MediaParser.parseMessage(this.bot, update.message);
+                                        if (mediaInfo && mediaInfo.fileId) {
+                                            if (!this.processedFileIds.has(mediaInfo.fileId)) {
+                                                this.processedFileIds.add(mediaInfo.fileId);
+                                                if (this.processedFileIds.size > 500) {
+                                                    this.processedFileIds.clear();
+                                                }
+                                                this._addToHistory(mediaInfo);
+                                                if (this.onInfoReceived) {
+                                                    this.onInfoReceived(mediaInfo);
+                                                }
+                                            }
+                                        }
+                                    } catch (parseErr) {
+                                        console.warn('解析消息失败:', parseErr.message);
+                                    }
+                                }
+                            }
+
+                            if (this.onStatusChange) {
+                                this.onStatusChange(Date.now());
+                            }
+                        } catch (error) {
+                            this.bot.consecutiveErrors++;
+                            console.error('轮询错误:', error.message);
+                            if (this.onError) this.onError(error);
+
+                            if (error.code === 401 || error.code === 403) {
+                                this._notifyStatus('error', 'Token 无效');
+                                this.stop();
+                                break;
+                            }
+                            if (this.bot.consecutiveErrors > 10) {
+                                this._notifyStatus('error', '连续错误过多，已暂停');
+                                this.stop();
+                                break;
+                            }
+
+                            const wait = Math.min(3000 * this.bot.consecutiveErrors, 30000);
+                            this._notifyStatus('error', `重试 (${wait/1000}s)`);
+                            await new Promise(r => setTimeout(r, wait));
+                        }
+                    }
+                }
+
+                _setupVisibilityListener() {
+                    if (this._visibilityHandler) {
+                        document.removeEventListener('visibilitychange', this._visibilityHandler);
+                    }
+                    this._visibilityHandler = () => {
+                        if (document.visibilityState === 'visible' && this.bot && this.bot.isPolling) {
+                            this.bot.consecutiveErrors = 0;
+                            this._notifyStatus('online', '监听中');
+                        }
+                    };
+                    document.addEventListener('visibilitychange', this._visibilityHandler);
+                }
+
+                _clearTimers() {
+                    if (this._visibilityHandler) {
+                        document.removeEventListener('visibilitychange', this._visibilityHandler);
+                        this._visibilityHandler = null;
+                    }
+                }
+
+                _addToHistory(mediaInfo) {
+                    this.mediaHistory.unshift(mediaInfo);
+                    if (this.mediaHistory.length > this.maxHistory) {
+                        this.mediaHistory = this.mediaHistory.slice(0, this.maxHistory);
+                    }
+                }
+
+                _notifyStatus(state, text, timestamp) {
+                    if (this.onStatusChange) {
+                        this.onStatusChange(state, text, timestamp || Date.now());
+                    }
+                }
+
+                async downloadFullSet(setName) {
+                    if (!this.bot) throw new Error('Bot 未初始化');
+                    const setInfo = await this.bot.getStickerSet(setName);
+                    if (!setInfo) return { title: null, stickers: [] };
+
+                    const promises = setInfo.stickers.map(async (sticker) => {
+                        const url = await this.bot.getFileUrl(sticker.file_id);
+                        let thumbUrl = null;
+                        if (sticker.thumbnail) {
+                            try { thumbUrl = await this.bot.getFileUrl(sticker.thumbnail.file_id); } catch (_) {}
+                        }
+                        return {
+                            fileId: sticker.file_id,
+                            url: url,
+                            thumbUrl: thumbUrl,
+                            emoji: sticker.emoji || null,
+                            type: sticker.is_animated ? 'tgs' : sticker.is_video ? 'webm' : 'webp',
+                        };
+                    });
+                    const stickers = await Promise.all(promises);
+                    return { title: setInfo.title, stickers: stickers };
+                }
+            }
+
+            // ============================================
+            // 7. UI Controller (M3 适配)
+            // ============================================
+            const app = new TGStickerApp();
+            let activeMediaCard = null;
+            let activeSetData = null;
+            let isPacking = false;
+
+            // DOM refs
+            const $ = (s) => document.querySelector(s);
+            const $$ = (s) => document.querySelectorAll(s);
+            const $tokenInput = $('#tokenInput');
+            const $btnStart = $('#btnStart');
+            const $btnStop = $('#btnStop');
+            const $statusDot = $('#statusDot');
+            const $statusText = $('#statusText');
+            const $lastPollTime = $('#lastPollTime');
+            const $mediaDisplayArea = $('#mediaDisplayArea');
+            const $emptyState = $('#emptyState');
+            const $historySection = $('#historySection');
+            const $historyList = $('#historyList');
+            const $snackbarContainer = $('#snackbarContainer');
+            const $themeToggle = $('#themeToggle');
+            const $themeIcon = $('#themeIcon');
+            const $tokenVisBtn = $('#tokenVisBtn');
+            const $eyeIcon = $('#eyeIcon');
+            const $clearHistoryBtn = $('#clearHistoryBtn');
+
+            // --- Theme ---
+            function initTheme() {
+                const saved = localStorage.getItem('tg_sticker_theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const theme = saved || (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+                updateThemeIcon(theme);
+            }
+
+            function updateThemeIcon(theme) {
+                $themeIcon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
+            }
+
+            function toggleTheme() {
+                const current = document.documentElement.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('tg_sticker_theme', next);
+                updateThemeIcon(next);
+            }
+            $themeToggle.addEventListener('click', toggleTheme);
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                if (!localStorage.getItem('tg_sticker_theme')) initTheme();
+            });
+            initTheme();
+
+            // --- Token visibility ---
+            let tokenVisible = false;
+            $tokenVisBtn.addEventListener('click', () => {
+                tokenVisible = !tokenVisible;
+                $tokenInput.type = tokenVisible ? 'text' : 'password';
+                $eyeIcon.textContent = tokenVisible ? 'visibility' : 'visibility_off';
+            });
+
+            // --- Snackbar ---
+            function showSnackbar(message) {
+                const el = document.createElement('div');
+                el.className = 'snackbar';
+                el.textContent = message;
+                $snackbarContainer.appendChild(el);
+                setTimeout(() => { if (el.parentNode) el.remove(); }, 2500);
+            }
+
+            // --- Copy ---
+            async function copyToClipboard(text) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    showSnackbar('已复制链接');
+                } catch (_) {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.cssText = 'position:fixed;opacity:0;';
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    showSnackbar('已复制链接');
+                }
+            }
+
+            // --- Status ---
+            function updateStatus(state, text, timestamp) {
+                $statusDot.className = 'status-dot ' + state;
+                $statusText.textContent = text || '';
+                if (timestamp) {
+                    $lastPollTime.textContent = '最后轮询: ' + new Date(timestamp).toLocaleTimeString('zh-CN', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+                }
+                if (state === 'online') {
+                    $btnStart.style.display = 'none';
+                    $btnStop.style.display = 'inline-flex';
+                    $tokenInput.disabled = true;
+                    $tokenInput.style.opacity = '0.5';
+                } else {
+                    $btnStart.style.display = 'inline-flex';
+                    $btnStop.style.display = 'none';
+                    $tokenInput.disabled = false;
+                    $tokenInput.style.opacity = '1';
+                    if (state === 'offline') $lastPollTime.textContent = '';
+                }
+            }
+
+            app.onStatusChange = (stateOrTs, textOrUndef, tsOrUndef) => {
+                if (typeof stateOrTs === 'string') {
+                    updateStatus(stateOrTs, textOrUndef, tsOrUndef);
+                } else if (typeof stateOrTs === 'number') {
+                    updateStatus('online', '监听中', stateOrTs);
+                }
+            };
+
+            app.onError = (error) => {
+                if (error.code === 401 || error.code === 403) {
+                    updateStatus('error', 'Token 无效');
+                    showSnackbar('Token 无效，请检查后重试');
+                }
+            };
+
+            // --- Render Media Card (M3) ---
+            async function renderMediaCard(mediaInfo) {
+                if ($emptyState) $emptyState.style.display = 'none';
+
+                if (activeMediaCard) {
+                    activeMediaCard.style.borderColor = '';
+                    activeMediaCard.style.boxShadow = '';
+                }
+
+                const card = document.createElement('div');
+                card.className = 'media-card-m3';
+                card.style.borderColor = 'var(--md-sys-color-primary)';
+                card.style.borderWidth = '2px';
+                card.dataset.fileId = mediaInfo.fileId;
+
+                // Preview
+                const preview = document.createElement('div');
+                preview.className = 'media-preview';
+
+                const badge = document.createElement('span');
+                badge.className = 'media-badge';
+                if (mediaInfo.type === 'tgs') badge.classList.add('animated');
+                if (['webm', 'mp4'].includes(mediaInfo.type)) badge.classList.add('video');
+                badge.textContent = mediaInfo.type.toUpperCase();
+                preview.appendChild(badge);
+
+                if (mediaInfo.type === 'tgs') {
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'tgs-placeholder-m3';
+                    const lottieBox = document.createElement('div');
+                    lottieBox.className = 'lottie-box';
+                    placeholder.appendChild(lottieBox);
+                    preview.appendChild(placeholder);
+                    TGSRenderer.renderToContainer(lottieBox, mediaInfo.originalUrl);
+                } else if (['webm', 'mp4'].includes(mediaInfo.type)) {
+                    const video = document.createElement('video');
+                    video.src = mediaInfo.originalUrl;
+                    video.controls = true;
+                    video.preload = 'metadata';
+                    video.style.maxWidth = '100%';
+                    video.style.maxHeight = '360px';
+                    video.style.borderRadius = '4px';
+                    preview.appendChild(video);
+                } else {
+                    const img = document.createElement('img');
+                    img.src = mediaInfo.originalUrl;
+                    img.alt = 'Sticker preview';
+                    img.loading = 'lazy';
+                    img.style.maxWidth = '100%';
+                    img.style.maxHeight = '360px';
+                    img.style.borderRadius = '4px';
+                    preview.appendChild(img);
+                }
+                card.appendChild(preview);
+
+                // Info grid
+                const grid = document.createElement('div');
+                grid.className = 'media-info-grid';
+                const items = [
+                    { label: '格式', value: mediaInfo.type.toUpperCase() },
+                    { label: '尺寸', value: mediaInfo.dimensions },
+                    { label: '大小', value: DownloadManager.formatFileSize(mediaInfo.fileSize) },
+                    { label: '来源', value: mediaInfo.sourceCategory === 'sticker' ? '贴纸' : mediaInfo.sourceCategory ===
+                            'animation' ? 'GIF/动画' : mediaInfo.sourceCategory === 'document' ? '文件' : '视频' },
+                ];
+                if (mediaInfo.emoji) items.push({ label: '关联符号', value: mediaInfo.emoji });
+                if (mediaInfo.setName) items.push({ label: '套装', value: mediaInfo.setName });
+                items.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'media-info-item';
+                    div.innerHTML =
+                        `<span class="info-label">${item.label}</span><span class="info-value">${item.value}</span>`;
+                    grid.appendChild(div);
+                });
+                card.appendChild(grid);
+
+                // Actions
+                const actions = document.createElement('div');
+                actions.className = 'media-actions-m3';
+
+                const dlBtn = document.createElement('button');
+                dlBtn.className = 'm3-btn m3-btn-filled m3-btn-sm';
+                dlBtn.innerHTML =
+                    `<span class="material-symbols-outlined">download</span> 原文件`;
+                dlBtn.addEventListener('click', () => {
+                    const ext = mediaInfo.type === 'tgs' ? 'tgs' : mediaInfo.type === 'webm' ? 'webm' :
+                        mediaInfo.type === 'mp4' ? 'mp4' : mediaInfo.type;
+                    DownloadManager.triggerDownload(mediaInfo.originalUrl,
+                        `sticker_${mediaInfo.fileId.slice(0,12)}.${ext}`);
+                    showSnackbar('开始下载');
+                });
+                actions.appendChild(dlBtn);
+
+                if (mediaInfo.type === 'webp') {
+                    const convBtn = document.createElement('button');
+                    convBtn.className = 'm3-btn m3-btn-outlined m3-btn-sm';
+                    convBtn.innerHTML = `<span class="material-symbols-outlined">transform</span> PNG`;
+                    convBtn.addEventListener('click', async () => {
+                        convBtn.disabled = true;
+                        convBtn.textContent = '转换中...';
+                        try {
+                            const dataUrl = await DownloadManager.convertWebpToPng(mediaInfo.originalUrl);
+                            DownloadManager.triggerDownload(dataUrl,
+                                `sticker_${mediaInfo.fileId.slice(0,12)}.png`);
+                            showSnackbar('PNG 下载开始');
+                        } catch (e) {
+                            showSnackbar('转换失败: ' + e.message);
+                        }
+                        convBtn.disabled = false;
+                        convBtn.innerHTML = `<span class="material-symbols-outlined">transform</span> PNG`;
+                    });
+                    actions.appendChild(convBtn);
+                }
+
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'm3-btn m3-btn-outlined m3-btn-sm';
+                copyBtn.innerHTML = `<span class="material-symbols-outlined">content_copy</span> 链接`;
+                copyBtn.addEventListener('click', () => copyToClipboard(mediaInfo.originalUrl));
+                actions.appendChild(copyBtn);
+
+                if (mediaInfo.setName) {
+                    const setBtn = document.createElement('button');
+                    setBtn.className = 'm3-btn m3-btn-tonal m3-btn-sm';
+                    setBtn.innerHTML = `<span class="material-symbols-outlined">collections</span> 套装`;
+                    setBtn.addEventListener('click', () => handleSetExpansion(card, mediaInfo.setName, setBtn));
+                    actions.appendChild(setBtn);
+                }
+                card.appendChild(actions);
+
+                // Expansion
+                const expansion = document.createElement('div');
+                expansion.className = 'set-expansion-m3';
+                expansion.id = 'setExpansion-' + mediaInfo.fileId;
+                card.appendChild(expansion);
+
+                $mediaDisplayArea.insertBefore(card, $mediaDisplayArea.firstChild);
+                activeMediaCard = card;
+                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                updateHistoryUI();
+            }
+
+            // --- Set Expansion ---
+            async function handleSetExpansion(card, setName, triggerBtn) {
+                const expansion = card.querySelector('.set-expansion-m3');
+                if (!expansion) return;
+
+                if (expansion.classList.contains('open') && activeSetData && activeSetData.name === setName) {
+                    expansion.classList.remove('open');
+                    activeSetData = null;
+                    triggerBtn.innerHTML = `<span class="material-symbols-outlined">collections</span> 套装`;
+                    return;
+                }
+
+                document.querySelectorAll('.set-expansion-m3.open').forEach(el => el.classList.remove('open'));
+                expansion.classList.add('open');
+                expansion.innerHTML = `<div style="text-align:center;padding:20px;color:var(--md-sys-color-on-surface-variant);">
+                        <span class="material-symbols-outlined" style="font-size:28px;">hourglass_top</span>
+                        <div style="margin-top:4px;">加载中…</div>
+                    </div>`;
+                triggerBtn.disabled = true;
+                triggerBtn.innerHTML = `<span class="material-symbols-outlined">hourglass_top</span> 加载中`;
+
+                try {
+                    const setData = await app.downloadFullSet(setName);
+                    activeSetData = { name: setName, data: setData };
+                    renderSetGridM3(expansion, setData, setName);
+                    triggerBtn.innerHTML = `<span class="material-symbols-outlined">expand_less</span> 收起`;
+                } catch (e) {
+                    expansion.innerHTML =
+                        `<div style="text-align:center;padding:16px;color:var(--md-sys-color-error);">
+                            <span class="material-symbols-outlined">error</span> 加载失败: ${e.message}
+                        </div>`;
+                    triggerBtn.innerHTML = `<span class="material-symbols-outlined">refresh</span> 重试`;
+                }
+                triggerBtn.disabled = false;
+            }
+
+            // --- Render Set Grid (M3) ---
+            function renderSetGridM3(container, setData, setName) {
+                container.innerHTML = '';
+
+                const header = document.createElement('div');
+                header.style.cssText =
+                    'display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;font-weight:500;color:var(--md-sys-color-on-surface);padding:0 4px;';
+                header.innerHTML =
+                    `<span>${setData.title || setName} (${setData.stickers.length})</span>
+                        <span style="font-weight:400;font-size:0.7rem;color:var(--md-sys-color-on-surface-variant);">点击贴纸下载</span>`;
+                container.appendChild(header);
+
+                // Progress
+                const progressWrap = document.createElement('div');
+                progressWrap.className = 'zip-progress-m3';
+                progressWrap.style.display = 'none';
+                progressWrap.innerHTML = `
+                        <span style="font-size:0.7rem;color:var(--md-sys-color-on-surface-variant);">打包</span>
+                        <div class="progress-track"><div class="progress-fill" id="zipProgressFillM3"></div></div>
+                        <span class="progress-label" id="zipProgressTextM3">0%</span>
+                    `;
+                container.appendChild(progressWrap);
+
+                const grid = document.createElement('div');
+                grid.className = 'set-grid-m3';
+
+                setData.stickers.forEach(sticker => {
+                    const item = document.createElement('div');
+                    item.className = 'set-sticker-item-m3';
+
+                    if (sticker.type === 'webm' || sticker.type === 'mp4') {
+                        if (sticker.thumbUrl) {
+                            const img = document.createElement('img');
+                            img.src = sticker.thumbUrl;
+                            img.alt = 'Video sticker';
+                            img.loading = 'lazy';
+                            item.appendChild(img);
+                            const badge = document.createElement('span');
+                            badge.className = 'set-badge-tiny';
+                            badge.textContent = 'VID';
+                            item.appendChild(badge);
+                        } else {
+                            const label = document.createElement('span');
+                            label.style.cssText = 'font-size:0.65rem;font-weight:600;color:var(--md-sys-color-on-surface-variant);';
+                            label.textContent = sticker.type.toUpperCase();
+                            item.appendChild(label);
+                        }
+                    } else if (sticker.type === 'tgs') {
+                        if (sticker.thumbUrl) {
+                            const img = document.createElement('img');
+                            img.src = sticker.thumbUrl;
+                            img.alt = 'TGS sticker';
+                            img.loading = 'lazy';
+                            item.appendChild(img);
+                            const badge = document.createElement('span');
+                            badge.className = 'set-badge-tiny';
+                            badge.textContent = 'TGS';
+                            item.appendChild(badge);
+                        } else {
+                            const label = document.createElement('span');
+                            label.style.cssText = 'font-size:0.65rem;font-weight:600;color:var(--md-sys-color-on-surface-variant);';
+                            label.textContent = 'TGS';
+                            item.appendChild(label);
+                        }
+                    } else {
+                        const img = document.createElement('img');
+                        img.src = sticker.thumbUrl || sticker.url;
+                        img.alt = 'Sticker';
+                        img.loading = 'lazy';
+                        item.appendChild(img);
+                    }
+
+                    if (sticker.emoji) {
+                        const emoji = document.createElement('span');
+                        emoji.className = 'set-emoji';
+                        emoji.textContent = sticker.emoji;
+                        item.appendChild(emoji);
+                    }
+
+                    item.title = '下载 ' + sticker.type.toUpperCase();
+                    item.addEventListener('click', () => {
+                        const ext = sticker.type === 'tgs' ? 'tgs' : sticker.type === 'webm' ? 'webm' :
+                            sticker.type === 'mp4' ? 'mp4' : 'webp';
+                        DownloadManager.triggerDownload(sticker.url,
+                            `sticker_${sticker.fileId.slice(0,10)}.${ext}`);
+                        showSnackbar('下载: ' + sticker.type.toUpperCase());
+                    });
+                    grid.appendChild(item);
+                });
+                container.appendChild(grid);
+
+                // Batch actions
+                const actionRow = document.createElement('div');
+                actionRow.style.cssText =
+                    'display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;padding-top:8px;border-top:1px solid var(--md-sys-color-outline-variant);border-color:rgba(116,119,130,0.08);';
+
+                const dlAllBtn = document.createElement('button');
+                dlAllBtn.className = 'm3-btn m3-btn-outlined m3-btn-sm';
+                dlAllBtn.innerHTML = `<span class="material-symbols-outlined">playlist_add</span> 逐个下载全部`;
+                dlAllBtn.addEventListener('click', async () => {
+                    showSnackbar('开始逐个下载...');
+                    for (let i = 0; i < setData.stickers.length; i++) {
+                        const s = setData.stickers[i];
+                        const ext = s.type === 'tgs' ? 'tgs' : s.type === 'webm' ? 'webm' : 'webp';
+                        await new Promise(r => setTimeout(r, i === 0 ? 100 : 400));
+                        DownloadManager.triggerDownload(s.url,
+                            `sticker_${s.fileId.slice(0,10)}.${ext}`);
+                    }
+                    showSnackbar('全部下载已触发');
+                });
+                actionRow.appendChild(dlAllBtn);
+
+                const zipBtn = document.createElement('button');
+                zipBtn.className = 'm3-btn m3-btn-tonal m3-btn-sm';
+                zipBtn.innerHTML = `<span class="material-symbols-outlined">folder_zip</span> 打包 ZIP`;
+                zipBtn.addEventListener('click', () => createZipM3(setData, progressWrap, zipBtn));
+                actionRow.appendChild(zipBtn);
+
+                container.appendChild(actionRow);
+            }
+
+            // --- ZIP Pack (M3) ---
+            async function createZipM3(setData, progressWrap, btn) {
+                if (isPacking) { showSnackbar('正在打包中…'); return; }
+                if (typeof JSZip === 'undefined') { showSnackbar('JSZip 未加载'); return; }
+
+                isPacking = true;
+                btn.disabled = true;
+                btn.innerHTML = `<span class="material-symbols-outlined">hourglass_top</span> 打包中`;
+                progressWrap.style.display = 'flex';
+                const fill = progressWrap.querySelector('#zipProgressFillM3');
+                const label = progressWrap.querySelector('#zipProgressTextM3');
+
+                const update = (p) => {
+                    fill.style.width = p + '%';
+                    label.textContent = p + '%';
+                };
+                update(0);
+
+                const zip = new JSZip();
+                let done = 0;
+                const total = setData.stickers.length;
+                let failed = 0;
+
+                try {
+                    for (const sticker of setData.stickers) {
+                        try {
+                            const resp = await fetch(sticker.url);
+                            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                            const blob = await resp.blob();
+                            const ext = sticker.type === 'tgs' ? 'tgs' : sticker.type === 'webm' ? 'webm' :
+                                sticker.type === 'mp4' ? 'mp4' : 'webp';
+                            zip.file(`sticker_${sticker.fileId.slice(0,10)}.${ext}`, blob);
+                        } catch (e) {
+                            failed++;
+                            console.warn('打包失败:', sticker.fileId, e.message);
+                        }
+                        done++;
+                        update(Math.round((done / total) * 100));
+                    }
+
+                    if (total - failed === 0) {
+                        showSnackbar('所有文件获取失败');
+                        return;
+                    }
+
+                    const zipBlob = await zip.generateAsync({ type: 'blob' });
+                    const url = URL.createObjectURL(zipBlob);
+                    DownloadManager.triggerDownload(url, `sticker_set_${Date.now()}.zip`);
+                    setTimeout(() => URL.revokeObjectURL(url), 5000);
+                    showSnackbar(`打包完成 (成功 ${total-failed}/${total})`);
+                } catch (e) {
+                    showSnackbar('打包失败: ' + e.message);
+                } finally {
+                    isPacking = false;
+                    btn.disabled = false;
+                    btn.innerHTML = `<span class="material-symbols-outlined">folder_zip</span> 打包 ZIP`;
+                    setTimeout(() => { progressWrap.style.display = 'none'; }, 3000);
+                }
+            }
+
+            // --- History UI ---
+            function updateHistoryUI() {
+                if (app.mediaHistory.length === 0) {
+                    $historySection.style.display = 'none';
+                    $clearHistoryBtn.style.display = 'none';
+                    return;
+                }
+                $historySection.style.display = 'flex';
+                $clearHistoryBtn.style.display = 'inline-block';
+                $historyList.innerHTML = '';
+
+                app.mediaHistory.slice(0, 12).forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'history-item-m3';
+                    const thumb = document.createElement('img');
+                    thumb.className = 'history-thumb-m3';
+                    thumb.src = item.thumbnail || item.originalUrl;
+                    thumb.alt = 'thumb';
+                    thumb.loading = 'lazy';
+                    thumb.onerror = function() { this.src = item.originalUrl; };
+                    el.appendChild(thumb);
+
+                    const info = document.createElement('div');
+                    info.className = 'history-info-m3';
+                    info.innerHTML = `
+                            <span class="history-type-m3">${item.type.toUpperCase()}</span>
+                            <span class="history-meta-m3">${DownloadManager.formatFileSize(item.fileSize)} · ${item.dimensions}</span>
+                        `;
+                    el.appendChild(info);
+
+                    el.addEventListener('click', () => {
+                        renderMediaCard(item);
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    });
+                    $historyList.appendChild(el);
+                });
+            }
+
+            // --- Clear History ---
+            $clearHistoryBtn.addEventListener('click', () => {
+                if (app.mediaHistory.length === 0) return;
+                app.mediaHistory = [];
+                app.processedFileIds.clear();
+                updateHistoryUI();
+                // 清除媒体卡片
+                const cards = $$('.media-card-m3');
+                cards.forEach(c => c.remove());
+                $emptyState.style.display = 'block';
+                activeMediaCard = null;
+                showSnackbar('历史已清除');
+            });
+
+            // --- App event hooks ---
+            app.onInfoReceived = async (mediaInfo) => {
+                await renderMediaCard(mediaInfo);
+            };
+
+            // --- Start / Stop ---
+            $btnStart.addEventListener('click', () => {
+                const token = $tokenInput.value.trim();
+                if (!token) { showSnackbar('请输入 Bot Token');
+                    $tokenInput.focus(); return; }
+                if (!token.includes(':')) { showSnackbar('Token 格式不正确'); return; }
+                app.start(token);
+                updateStatus('online', '正在连接…');
+                showSnackbar('已启动监听');
+            });
+
+            $btnStop.addEventListener('click', () => {
+                app.stop();
+                updateStatus('offline', '已停止');
+                showSnackbar('已停止监听');
+            });
+
+            // --- Restore saved token ---
+            const savedToken = TokenManager.get();
+            if (savedToken) {
+                $tokenInput.value = savedToken;
+                updateStatus('offline', '已加载令牌，点击开始');
+            }
+
+            // --- Keyboard shortcut: Escape to close set expansion ---
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && activeSetData) {
+                    document.querySelectorAll('.set-expansion-m3.open').forEach(el => el.classList.remove('open'));
+                    activeSetData = null;
+                    const btns = $$('.media-actions-m3 .m3-btn-tonal');
+                    btns.forEach(b => {
+                        if (b.textContent.includes('收起') || b.textContent.includes('套装')) {
+                            b.innerHTML = `<span class="material-symbols-outlined">collections</span> 套装`;
+                        }
+                    });
+                }
+            });
+
+            console.log('📦 Sticker Hub · Material 3 已启动');
+        })();
+    </script>
+</body>
+</html>

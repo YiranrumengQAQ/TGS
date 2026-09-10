@@ -175,3 +175,32 @@
     --nb-iconbtn-bg: var(--nb-color-danger);
     color: var(--nb-color-on-inverse);
 }
+
+/* ── icon / label baseline normalization (mobile) ─────────────────────
+   Flex containers align to the text baseline when a stray line-height
+   sneaks in; force line-height: 1 everywhere and nudge the SVG glyphs
+   up 0.5px to kill the visual "droop" of Material-symbols-style icons. */
+.nb-btn,
+.nb-iconbtn {
+    line-height: 1;
+    vertical-align: middle;
+}
+.nb-btn svg,
+.nb-iconbtn svg,
+.nb-btn .nb-icon,
+.nb-iconbtn .nb-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    line-height: 1;
+    flex-shrink: 0;
+    transform: translateY(-0.5px); /* 微调 0.5px 消除视觉重心下沉 */
+}
+.nb-btn span,
+.nb-iconbtn span,
+.nb-btn__label {
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    white-space: nowrap;
+}

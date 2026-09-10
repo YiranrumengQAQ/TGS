@@ -6,8 +6,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    padding: 12px 20px 12px;
+    gap: 8px;
+    padding: 8px 12px;
+    width: 100%;
+    box-sizing: border-box;
     background: var(--nb-color-surface);
     border-bottom: 3px solid var(--nb-color-outline);
 }
@@ -15,14 +17,15 @@
    (viewport-fit=cover is added by the browser-compat layer) */
 @supports (padding: env(safe-area-inset-top)) {
     .nb-topbar {
-        padding-top: calc(12px + env(safe-area-inset-top));
+        padding-top: calc(8px + env(safe-area-inset-top));
     }
 }
 .nb-topbar__start {
     display: flex;
     align-items: center;
     gap: 12px;
-    min-width: 0;
+    min-width: 0; /* 允许标题组收缩，防止把右侧操作区挤出屏幕 */
+    flex: 1; /* 占据剩余空间 */
 }
 .nb-topbar__logo {
     width: 46px;
@@ -37,6 +40,10 @@
     box-shadow: var(--nb-shadow-2);
     transform: rotate(-5deg);
 }
+.nb-topbar__titles {
+    min-width: 0;
+    flex: 1;
+}
 .nb-topbar__title {
     font-family: var(--nb-font-display);
     font-size: var(--nb-text-xl);
@@ -46,13 +53,20 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    min-width: 0; /* 关键：允许标题容器收缩至内容宽度以下 */
+}
+.nb-topbar__title-text {
+    min-width: 0;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 空间不足时显示省略号，不再整条截断 */
 }
 .nb-topbar__stamp {
     font-family: var(--nb-font-display);
     font-size: 10px;
     line-height: 1;
     padding: 3px 6px 2px;
+    flex-shrink: 0;
     background: var(--nb-color-secondary);
     color: var(--nb-color-on-secondary);
     border: 2px solid var(--nb-color-outline);
@@ -68,12 +82,15 @@
     color: var(--nb-color-on-surface-muted);
     margin-top: 3px;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .nb-topbar__actions {
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
+    gap: 6px;
+    flex-shrink: 0; /* 禁止操作区被压缩 */
+    overflow: hidden;
 }
 .nb-topbar__live {
     display: none;
@@ -99,6 +116,7 @@
 .nb-topbar__exit {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
     padding: 8px 12px;
     min-height: 34px;
@@ -115,6 +133,19 @@
         transform var(--nb-duration-fast) var(--nb-easing-standard),
         box-shadow var(--nb-duration-fast) var(--nb-easing-standard);
 }
+.nb-topbar__exit .nb-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.nb-topbar__exit span {
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    white-space: nowrap;
+}
 .nb-topbar__exit:hover {
     transform: translate(-1px, -1px);
     box-shadow: var(--nb-shadow-2);
@@ -127,16 +158,33 @@
 
 @media (max-width: 480px) {
     .nb-topbar {
-        padding: 10px 12px;
+        padding: 8px 12px;
+        gap: 8px;
+    }
+    .nb-topbar__start {
+        gap: 8px;
     }
     .nb-topbar__logo {
         width: 40px;
         height: 40px;
     }
     .nb-topbar__title {
-        font-size: var(--nb-text-lg);
+        font-size: 1.05rem; /* 稍微缩小字号防截断 */
+        letter-spacing: -0.02em;
+        gap: 6px;
     }
     .nb-topbar__sub {
         font-size: 8px;
+    }
+    .nb-topbar__actions {
+        gap: 6px;
+    }
+    /* 移动端精简 < M3 按钮：隐藏文本，仅保留图标 */
+    .nb-topbar__exit span {
+        display: none;
+    }
+    .nb-topbar__exit {
+        padding: 8px;
+        min-width: 34px;
     }
 }

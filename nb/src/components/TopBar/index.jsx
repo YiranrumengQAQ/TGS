@@ -16,8 +16,8 @@ export function TopBar({ onExit, theme, onThemeToggle, isPolling }) {
                 </div>
                 <div className="nb-topbar__titles">
                     <div className="nb-topbar__title">
-                        Sticker Hub
-                        <span className="nb-topbar__stamp">NB</span>
+                        <span className="nb-topbar__title-text">Sticker Hub</span>
+                        <span className="nb-topbar__stamp" aria-hidden="true">NB</span>
                     </div>
                     <div className="nb-topbar__sub">TELEGRAM · NEO-BRUTALISM</div>
                 </div>

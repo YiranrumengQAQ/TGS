@@ -71,8 +71,14 @@
     grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
     gap: 10px 14px;
     padding: 14px 16px;
+    width: 100%;
+    box-sizing: border-box;
     border-bottom: 2px solid var(--nb-color-outline);
     background: var(--nb-color-surface-container-low);
+}
+.nb-media__info-item {
+    min-width: 0; /* 关键：允许 Grid 子项收缩至内容尺寸以下 */
+    overflow: hidden;
 }
 .nb-media__info-item dt {
     font-size: 10px;
@@ -82,6 +88,9 @@
     color: var(--nb-color-on-surface-muted);
 }
 .nb-media__info-item dd {
+    display: block;
+    width: 100%;
+    min-width: 0;
     margin-top: 2px;
     font-family: var(--nb-font-mono);
     font-size: var(--nb-text-sm);
@@ -89,7 +98,8 @@
     color: var(--nb-color-on-surface);
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; /* 超长名称（如套装名）显示省略号 */
+    word-break: break-all;
 }
 
 /* actions */

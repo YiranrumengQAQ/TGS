@@ -111,6 +111,17 @@
     background-position: 0 0, 0 9px, 9px -9px, -9px 0;
 }
 
+/* ── icon primitive: consistent inline baseline everywhere ───────────
+   SVGs default to baseline-aligned inline elements, which pushes the
+   glyph visibly below the text center inside flex rows; normalize to
+   inline-block + middle alignment. */
+.nb-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    line-height: 1;
+}
+
 /* ── square spinner (primitive) ────────────────────────────────────── */
 .nb-spinner {
     display: inline-block;

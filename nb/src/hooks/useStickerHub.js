@@ -208,7 +208,15 @@ export function useStickerHub({ notify }) {
 
     const downloadOriginal = useCallback(
         (m) => {
-            DownloadManager.triggerDownload(m.originalUrl, `sticker_${m.fileId.slice(0, 12)}.${extOf(m.type)}`);
+            const filename = `sticker_${m.fileId.slice(0, 12)}.${extOf(m.type)}`;
+            // Telegram CDN is cross-origin: the anchor `download` attribute
+            // is silently ignored, so the browser would open the file in a
+            // new tab instead of saving it. Fetch the bytes ourselves
+            // (Telegram sends CORS: *) and save them as a blob; fall back
+            // to the plain anchor on any failure.
+            DownloadManager.fetchAsBlob(m.originalUrl, { timeoutMs: 25000, retries: 1 })
+                .then((blob) => DownloadManager.saveBlob(blob, filename))
+                .catch(() => DownloadManager.triggerDownload(m.originalUrl, filename));
             notifyRef.current?.('开始下载');
         },
         [],
@@ -309,7 +317,12 @@ export function useStickerHub({ notify }) {
 
     // ── downloads from a set ───────────────────────────────────────────
     const downloadOne = useCallback((st) => {
-        DownloadManager.triggerDownload(st.url, `sticker_${st.fileId.slice(0, 10)}.${extOf(st.type)}`);
+        const filename = `sticker_${st.fileId.slice(0, 10)}.${extOf(st.type)}`;
+        // Same cross-origin reasoning as downloadOriginal: fetch-as-blob
+        // first so the file really downloads, direct link as fallback.
+        DownloadManager.fetchAsBlob(st.url, { timeoutMs: 25000, retries: 1 })
+            .then((blob) => DownloadManager.saveBlob(blob, filename))
+            .catch(() => DownloadManager.triggerDownload(st.url, filename));
         notifyRef.current?.(`下载: ${st.type.toUpperCase()}`);
     }, []);
 
@@ -318,7 +331,13 @@ export function useStickerHub({ notify }) {
         for (let i = 0; i < stickers.length; i++) {
             const s = stickers[i];
             await sleep(i === 0 ? 100 : 400);
-            DownloadManager.triggerDownload(s.url, `sticker_${s.fileId.slice(0, 10)}.${extOf(s.type)}`);
+            const filename = `sticker_${s.fileId.slice(0, 10)}.${extOf(s.type)}`;
+            try {
+                const blob = await DownloadManager.fetchAsBlob(s.url, { timeoutMs: 25000, retries: 1 });
+                DownloadManager.saveBlob(blob, filename);
+            } catch (_) {
+                DownloadManager.triggerDownload(s.url, filename);
+            }
         }
         notifyRef.current?.('全部下载已触发', 'success');
     }, []);
@@ -345,9 +364,9 @@ export function useStickerHub({ notify }) {
                 break;
             }
             try {
-                const resp = await fetch(st.url);
-                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-                const blob = await resp.blob();
+                // per-sticker timeout + retries: one hung request used to
+                // stall the whole pack forever → 打包失败 after a long hang
+                const blob = await DownloadManager.fetchAsBlob(st.url, { timeoutMs: 25000, retries: 2 });
                 zip.file(`sticker_${st.fileId.slice(0, 10)}.${extOf(st.type)}`, blob);
             } catch (e) {
                 failed++;
@@ -366,12 +385,17 @@ export function useStickerHub({ notify }) {
             notifyRef.current?.('所有文件获取失败', 'error');
         } else {
             try {
-                const blob = await zip.generateAsync({ type: 'blob' });
-                const url = URL.createObjectURL(blob);
-                DownloadManager.triggerDownload(url, `sticker_set_${Date.now()}.zip`);
-                setTimeout(() => URL.revokeObjectURL(url), 5000);
+                const blob = await zip.generateAsync({
+                    type: 'blob',
+                    compression: 'DEFLATE',
+                    compressionOptions: { level: 6 },
+                });
+                // saveBlob keeps the object URL alive long enough for the
+                // browser to start the save (early revoke killed downloads)
+                DownloadManager.saveBlob(blob, `sticker_set_${Date.now()}.zip`);
                 notifyRef.current?.(`打包完成 (成功 ${stickers.length - failed}/${stickers.length})`, 'success');
             } catch (e) {
+                console.error('ZIP 生成失败:', e);
                 notifyRef.current?.('打包失败: ' + e.message, 'error');
             }
         }

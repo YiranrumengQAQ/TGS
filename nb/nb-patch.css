@@ -1,0 +1,162 @@
+/* ═════════════════════════════════════════════════════════════════════
+   NEO-BRUTALISM PATCH · CHROME
+   Styles for the patch layer itself: overlay root, loading splash and
+   the floating M3 ⇄ NB switcher. Scoped to #__nb_root__ / .nbp-*,
+   so the Material 3 page underneath is never restyled.
+   ═════════════════════════════════════════════════════════════════════ */
+
+/* ── overlay root (sits above the whole M3 page, incl. its snackbar) ── */
+#__nb_root__ {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    visibility: hidden;
+    pointer-events: none;
+    background: #F2EFE9;
+}
+#__nb_root__.nbp-overlay--on {
+    visibility: visible;
+    pointer-events: auto;
+}
+#__nb_root__.nbp-overlay--on .nb-app {
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+}
+body.nbp-hosting {
+    overflow: hidden;
+}
+
+/* ── loading splash ─────────────────────────────────────────────────── */
+.nbp-splash {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background:
+        radial-gradient(rgba(10, 10, 10, 0.14) 1.1px, transparent 1.1px) 0 0 / 22px 22px,
+        #F2EFE9;
+    color: #0A0A0A;
+    font-family: 'Space Grotesk', 'Noto Sans SC', system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+.nbp-splash__box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    transform: rotate(-2deg);
+}
+.nbp-splash__spin {
+    width: 44px;
+    height: 44px;
+    border: 4px solid #0A0A0A;
+    border-radius: 4px;
+    box-shadow: 6px 6px 0 0 #FFD312;
+    animation: nbp-spin 0.8s linear infinite;
+}
+@keyframes nbp-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.nbp-splash__text {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+.nbp-splash__hint {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: #5F5B52;
+}
+.nbp-splash--error .nbp-splash__spin {
+    border-color: #F0381F;
+    animation: none;
+    box-shadow: 6px 6px 0 0 #FFDCD7;
+}
+
+@media (prefers-color-scheme: dark) {
+    .nbp-splash {
+        background:
+            radial-gradient(rgba(244, 241, 232, 0.12) 1.1px, transparent 1.1px) 0 0 / 22px 22px,
+            #121214;
+        color: #F4F1E8;
+    }
+    .nbp-splash__spin {
+        border-color: #F4F1E8;
+        box-shadow: 6px 6px 0 0 #FFD312;
+    }
+    .nbp-splash__hint {
+        color: #A39E91;
+    }
+}
+
+/* ── floating style switcher (always on top, both skins) ────────────── */
+.nbp-fab {
+    position: fixed;
+    left: 16px;
+    bottom: 16px;
+    z-index: 100010;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    min-width: 62px;
+    padding: 8px 12px 6px;
+    background: #FFD312;
+    color: #0A0A0A;
+    border: 3px solid #0A0A0A;
+    border-radius: 6px;
+    box-shadow: 4px 4px 0 0 #0A0A0A;
+    font-family: 'Space Grotesk', 'Noto Sans SC', system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    cursor: pointer;
+    transform: rotate(-2deg);
+    transition:
+        transform 90ms cubic-bezier(0.2, 0, 0, 1),
+        box-shadow 90ms cubic-bezier(0.2, 0, 0, 1);
+    -webkit-tap-highlight-color: transparent;
+}
+.nbp-fab:hover {
+    transform: rotate(-2deg) translate(-1px, -1px);
+    box-shadow: 5px 5px 0 0 #0A0A0A;
+}
+.nbp-fab:active {
+    transform: rotate(-2deg) translate(4px, 4px);
+    box-shadow: 0 0 0 0 #0A0A0A;
+}
+.nbp-fab__label {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    opacity: 0.65;
+    text-transform: uppercase;
+}
+.nbp-fab__value {
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+}
+.nbp-fab[data-view='nb'] {
+    background: #FF71CE;
+}
+@media (prefers-color-scheme: dark) {
+    .nbp-fab {
+        box-shadow: 4px 4px 0 0 #F4F1E8;
+    }
+    .nbp-fab:hover {
+        box-shadow: 5px 5px 0 0 #F4F1E8;
+    }
+    .nbp-fab:active {
+        box-shadow: 0 0 0 0 #F4F1E8;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .nbp-splash__spin {
+        animation: none;
+    }
+}

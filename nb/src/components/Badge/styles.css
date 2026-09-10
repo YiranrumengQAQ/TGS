@@ -1,0 +1,43 @@
+/* ── nb-badge ───────────────────────────────────────────────────────── */
+.nb-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border: 2px solid var(--nb-color-outline);
+    border-radius: var(--nb-radius-xs);
+    background: var(--nb-color-surface-container-lowest);
+    color: var(--nb-color-on-surface);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-weight-bold);
+    letter-spacing: var(--nb-tracking-label);
+    text-transform: uppercase;
+    line-height: 1.2;
+    box-shadow: 2px 2px 0 0 var(--nb-color-shadow);
+    white-space: nowrap;
+}
+.nb-badge--animated {
+    background: var(--nb-color-accent-soft);
+}
+.nb-badge--video {
+    background: var(--nb-color-warning-soft);
+}
+.nb-badge--pink {
+    background: var(--nb-color-secondary);
+}
+.nb-badge--success {
+    background: var(--nb-color-success-soft);
+}
+.nb-badge--danger {
+    background: var(--nb-color-danger-soft);
+}
+.nb-badge--yellow {
+    background: var(--nb-color-primary);
+}
+.nb-badge--tiny {
+    padding: 1px 5px;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    box-shadow: none;
+    border-width: 1.5px;
+}

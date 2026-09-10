@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
+    <!-- IE 兼容模式: 强制 IE 使用最高渲染模式 (须在 head 前 1024 字节内) -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Sticker Hub · Material 3</title>
 
     <!-- Google Fonts: Roboto & Material Symbols -->
@@ -2371,5 +2373,16 @@
             console.log('📦 Sticker Hub · Material 3 已启动');
         })();
     </script>
+
+    <!-- ════════════════════════════════════════════════════════════════
+         NEO-BRUTALISM PATCH (non-destructive overlay)
+         ─ The Material 3 UI above is fully preserved and untouched.
+         ─ This patch appends a React-based Neo-Brutalism UI (nb/) that
+           renders on top of this page as a full-screen overlay, with a
+           floating STYLE switcher (bottom-left) to flip between NB / M3.
+         ─ To revert to pure Material 3: delete the two lines below.
+         ════════════════════════════════════════════════════════════════ -->
+    <link rel="stylesheet" href="nb/nb-patch.css" />
+    <script src="nb/nb-patch.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,24 @@
+/* ── nb-tgs ─────────────────────────────────────────────────────────── */
+.nb-tgs {
+    display: grid;
+    place-items: center;
+}
+.nb-tgs svg {
+    width: 100%;
+    height: 100%;
+}
+.nb-tgs-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 24px;
+    color: var(--nb-color-on-surface-muted);
+}
+.nb-tgs-fallback__label {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-weight-bold);
+    letter-spacing: var(--nb-tracking-label);
+    text-transform: uppercase;
+}

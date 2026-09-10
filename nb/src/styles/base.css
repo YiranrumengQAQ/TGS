@@ -1,0 +1,144 @@
+/* ════════════════════════════════════════════════════════════════════
+   NEO-BRUTALISM · BASE (scoped reset + primitives)
+   Everything is scoped under .nb-app so the Material 3 page underneath
+   the patch overlay is never touched.
+   ════════════════════════════════════════════════════════════════════ */
+
+.nb-app,
+.nb-app *,
+.nb-app *::before,
+.nb-app *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.nb-app {
+    min-height: 100vh;
+    /* WebKit (Safari/iOS): prevent font auto-scaling in text inputs */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Gecko (Firefox): standard scrollbar API — thin, themed.
+       (Blink only added scrollbar-width recently; both coexist fine.) */
+    scrollbar-width: thin;
+    scrollbar-color: var(--nb-color-outline) var(--nb-color-surface-container);
+    background-color: var(--nb-color-surface);
+    /* subtle paper dot-grid texture */
+    background-image: radial-gradient(var(--nb-color-outline-faint) 1.1px, transparent 1.1px);
+    background-size: 22px 22px;
+    color: var(--nb-color-on-surface);
+    font-family: var(--nb-font-sans);
+    font-size: 16px;
+    line-height: var(--nb-leading-base);
+    font-weight: var(--nb-weight-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* WebKit (Safari 15+ / iOS): dynamic viewport height — keeps the bottom
+   edge clear of the browser toolbar (100vh would hide content behind it) */
+@supports (height: 100dvh) {
+    .nb-app {
+        min-height: 100dvh;
+    }
+}
+
+/* Blink/Gecko/WebKit (all current): skip rendering of far off-screen
+   cards entirely; contain-intrinsic-size reserves an estimated height
+   so scrolling doesn't jump when they activate. */
+@supports (content-visibility: auto) {
+    .nb-media {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 380px;
+    }
+    .nb-history__item {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 64px;
+    }
+}
+
+.nb-app button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+}
+
+.nb-app input {
+    font: inherit;
+    color: inherit;
+}
+
+.nb-app img,
+.nb-app video {
+    display: block;
+    max-width: 100%;
+}
+
+.nb-app :focus-visible {
+    outline: 3px solid var(--nb-color-accent);
+    outline-offset: 2px;
+}
+
+.nb-app ::selection {
+    background: var(--nb-color-primary);
+    color: var(--nb-color-on-primary);
+}
+
+/* brutal scrollbar */
+.nb-app ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+.nb-app ::-webkit-scrollbar-track {
+    background: var(--nb-color-surface-container);
+}
+.nb-app ::-webkit-scrollbar-thumb {
+    background: var(--nb-color-outline);
+    border: 2px solid var(--nb-color-surface-container);
+    border-radius: var(--nb-radius-full);
+}
+
+/* ── shared surfaces ───────────────────────────────────────────────── */
+.nb-checker {
+    background-color: var(--nb-color-surface-container-lowest);
+    background-image:
+        linear-gradient(45deg, var(--nb-color-checker) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--nb-color-checker) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--nb-color-checker) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--nb-color-checker) 75%);
+    background-size: 18px 18px;
+    background-position: 0 0, 0 9px, 9px -9px, -9px 0;
+}
+
+/* ── square spinner (primitive) ────────────────────────────────────── */
+.nb-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    border: 3px solid currentColor;
+    border-right-color: transparent;
+    border-radius: var(--nb-radius-xs);
+    animation: nb-spin 0.7s var(--nb-easing-linear) infinite;
+}
+.nb-spinner--lg {
+    width: 28px;
+    height: 28px;
+    border-width: 4px;
+}
+@keyframes nb-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nb-app *,
+    .nb-app *::before,
+    .nb-app *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

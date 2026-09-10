@@ -1,0 +1,64 @@
+/* ── nb-field ───────────────────────────────────────────────────────── */
+.nb-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+.nb-field__label {
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-weight-bold);
+    letter-spacing: var(--nb-tracking-label);
+    text-transform: uppercase;
+    color: var(--nb-color-on-surface-muted);
+}
+.nb-field__box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--nb-color-surface-container-lowest);
+    border: 2px solid var(--nb-color-outline);
+    border-radius: var(--nb-radius-sm);
+    padding: 0 6px 0 12px;
+    min-height: 44px;
+    transition:
+        box-shadow var(--nb-duration-fast) var(--nb-easing-standard),
+        transform var(--nb-duration-fast) var(--nb-easing-standard);
+}
+.nb-field__box:focus-within {
+    box-shadow: var(--nb-shadow-2);
+    transform: translate(-1px, -1px);
+}
+.nb-field__input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: var(--nb-text-md);
+    font-weight: var(--nb-weight-medium);
+    padding: 11px 0;
+    color: var(--nb-color-on-surface);
+}
+.nb-field__input::placeholder {
+    color: var(--nb-color-on-surface-muted);
+    opacity: 0.55;
+}
+.nb-field__input:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+.nb-field--mono .nb-field__input {
+    font-family: var(--nb-font-mono);
+    letter-spacing: 0.01em;
+}
+.nb-field__trailing {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+.nb-field__hint {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-color-on-surface-muted);
+    font-weight: var(--nb-weight-medium);
+}

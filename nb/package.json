@@ -1,0 +1,23 @@
+{
+  "name": "tgs-neo-brutalism",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Sticker Hub · Neo-Brutalism UI — React implementation following the Gumroad Foundry design-system architecture. Patched non-destructively on top of the Material 3 UI (../index.html).",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1",
+    "lottie-web": "^5.12.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "jsdom": "^30.0.1",
+    "vite": "^5.4.11"
+  }
+}

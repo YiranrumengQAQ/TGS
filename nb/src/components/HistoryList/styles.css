@@ -1,0 +1,89 @@
+/* ── nb-history ─────────────────────────────────────────────────────── */
+.nb-history {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+}
+.nb-history__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 4px;
+}
+.nb-history__label {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-weight-bold);
+    letter-spacing: var(--nb-tracking-label);
+    text-transform: uppercase;
+    color: var(--nb-color-on-surface-muted);
+}
+.nb-history__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.nb-history__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 8px 12px;
+    background: var(--nb-color-surface-container-lowest);
+    border: 2px solid var(--nb-color-outline);
+    border-radius: var(--nb-radius-sm);
+    box-shadow: var(--nb-shadow-1);
+    cursor: pointer;
+    text-align: left;
+    transition:
+        transform var(--nb-duration-fast) var(--nb-easing-standard),
+        box-shadow var(--nb-duration-fast) var(--nb-easing-standard);
+}
+.nb-history__item:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--nb-shadow-2);
+    background: var(--nb-color-surface-container-low);
+}
+.nb-history__item:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--nb-shadow-0);
+}
+.nb-history__thumb {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    object-fit: contain;
+    border: 2px solid var(--nb-color-outline);
+    border-radius: var(--nb-radius-xs);
+}
+.nb-history__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+.nb-history__type {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-weight-bold);
+    letter-spacing: 0.08em;
+    color: var(--nb-color-accent-strong);
+}
+.nb-history__meta {
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-weight-medium);
+    color: var(--nb-color-on-surface-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.nb-history__arrow {
+    flex-shrink: 0;
+    color: var(--nb-color-on-surface-muted);
+}
+.nb-history__item:hover .nb-history__arrow {
+    color: var(--nb-color-on-surface);
+}

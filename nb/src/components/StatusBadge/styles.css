@@ -1,0 +1,48 @@
+/* ── nb-status ──────────────────────────────────────────────────────── */
+.nb-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border: 2px solid var(--nb-color-outline);
+    border-radius: var(--nb-radius-sm);
+    background: var(--nb-color-surface-container-lowest);
+    color: var(--nb-color-on-surface);
+    font-size: var(--nb-text-sm);
+    font-weight: var(--nb-weight-bold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    box-shadow: var(--nb-shadow-1);
+    white-space: nowrap;
+}
+.nb-status__dot {
+    width: 11px;
+    height: 11px;
+    flex-shrink: 0;
+    border: 2px solid var(--nb-color-outline);
+    border-radius: var(--nb-radius-xs);
+    background: var(--nb-color-surface-container-high);
+}
+.nb-status--online {
+    background: var(--nb-color-success-soft);
+}
+.nb-status--online .nb-status__dot {
+    background: var(--nb-color-success);
+    animation: nb-blink 1.2s var(--nb-easing-snap) infinite;
+}
+.nb-status--error {
+    background: var(--nb-color-danger-soft);
+}
+.nb-status--error .nb-status__dot {
+    background: var(--nb-color-danger);
+    animation: nb-blink 0.7s var(--nb-easing-snap) infinite;
+}
+.nb-status--pending .nb-status__dot {
+    background: var(--nb-color-warning);
+    animation: nb-blink 0.9s var(--nb-easing-snap) infinite;
+}
+@keyframes nb-blink {
+    50% {
+        opacity: 0.3;
+    }
+}

@@ -1,0 +1,114 @@
+/* ════════════════════════════════════════════════════════════════════
+   NEO-BRUTALISM · LAYOUT (app shell)
+   ════════════════════════════════════════════════════════════════════ */
+
+.nb-shell {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 20px 16px 96px;
+}
+@media (min-width: 900px) {
+    .nb-shell {
+        padding-top: 28px;
+    }
+}
+
+/* token card body */
+.nb-token__body {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 16px;
+}
+.nb-token__body > .nb-field {
+    flex: 1;
+    min-width: 200px;
+}
+.nb-token__btns {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.nb-token__status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0 16px 16px;
+    padding: 10px 12px;
+    border: 2px solid var(--nb-color-outline);
+    border-radius: var(--nb-radius-sm);
+    background: var(--nb-color-surface-container-low);
+}
+.nb-token__dot {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+    border: 2px solid var(--nb-color-outline);
+    border-radius: var(--nb-radius-xs);
+    background: var(--nb-color-surface-container-high);
+}
+.nb-token__state {
+    font-size: var(--nb-text-sm);
+    font-weight: var(--nb-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.nb-token__spacer {
+    flex: 1;
+}
+.nb-token__time {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-weight-bold);
+    color: var(--nb-color-on-surface-muted);
+}
+
+/* media area */
+.nb-media-area {
+    scroll-margin-top: 84px;
+}
+
+/* footer strip */
+.nb-footer {
+    margin-top: 40px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    border: 2px solid var(--nb-color-outline);
+    border-radius: var(--nb-radius-sm);
+    background: var(--nb-color-secondary);
+    color: var(--nb-color-on-secondary);
+    box-shadow: var(--nb-shadow-2);
+    font-family: var(--nb-font-display);
+    font-size: var(--nb-text-xs);
+    letter-spacing: var(--nb-tracking-label);
+    text-transform: uppercase;
+    transform: rotate(-0.4deg);
+}
+.nb-footer__sep {
+    opacity: 0.5;
+}
+
+@media (max-width: 560px) {
+    .nb-shell {
+        padding: 12px 10px 88px;
+    }
+    .nb-token__body {
+        padding: 12px;
+    }
+    .nb-token__status {
+        margin: 0 12px 12px;
+    }
+    .nb-token__btns {
+        width: 100%;
+    }
+    .nb-token__btns .nb-btn {
+        flex: 1;
+    }
+}

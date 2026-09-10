@@ -243,13 +243,19 @@ export default function App({ host = null }) {
                 {/* ── HISTORY ────────────────────────────────────────── */}
                 <HistoryList items={hub.mediaList.slice(0, 12)} onPick={onPick} onClear={handleClear} confirming={confirmClear} />
 
-                <footer className="nb-footer">
-                    <span>STICKER HUB</span>
-                    <span className="nb-footer__sep">/</span>
-                    <span>NEO-BRUTALISM · REACT</span>
-                    <span className="nb-footer__sep">/</span>
-                    <span>MATERIAL 3 仍保留在底层</span>
-                </footer>
+                {/* ── DEBUG BANNER (dev only) ───────────────────────────
+                    Production 构建中 import.meta.env.DEV 被静态替换为
+                    false，整块会随 tree-shaking 从打包产物中移除，
+                    不再在移动端底部占用空间遮挡内容。 */}
+                {import.meta.env.DEV && (
+                    <footer className="nb-footer">
+                        <span>STICKER HUB</span>
+                        <span className="nb-footer__sep">/</span>
+                        <span>NEO-BRUTALISM · REACT</span>
+                        <span className="nb-footer__sep">/</span>
+                        <span>MATERIAL 3 仍保留在底层</span>
+                    </footer>
+                )}
             </main>
 
             <SnackbarStack toasts={toasts} onDone={dismissToast} />

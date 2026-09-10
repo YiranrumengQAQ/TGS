@@ -24,8 +24,36 @@
     var VIEW_KEY = 'tg_ui_view_nb';
     var APP_SRC = 'nb/dist/nb-app.js'; // relative → works under any host/prefix
 
+    // ── browser compat & optimization layer (engine detection,
+    //    preconnect, IE mode, M3 lottie leak fix) ──────────────────────
+    // The compat layer loads async, so the ONE decision that must be
+    // synchronous — "can this engine run the modern bundle, or do we keep
+    // it on Material 3?" — is made right here with a tiny inline check.
+    // (IE11 = "Trident/"; a missing fetch/Promise means too old to run a
+    //  modern ES2015+ bundle.)
+    var uaNow = navigator.userAgent || '';
+    var noBundle =
+        /Trident\/|MSIE /.test(uaNow) ||
+        typeof window.fetch !== 'function' ||
+        typeof window.Promise !== 'function';
+    window.__NB_ASSET__ = function (p) { return p; }; // relative to page root
+    try {
+        if (!document.querySelector('script[data-nb-compat="1"]')) {
+            var compatScript = document.createElement('script');
+            compatScript.src = 'nb/browser-compat.js';
+            compatScript.setAttribute('data-nb-compat', '1');
+            document.head.appendChild(compatScript);
+        }
+    } catch (_) {}
+    var compat = window.__NB_COMPAT__ || {
+        noBundle: noBundle,
+        engine: { ie: noBundle, legacy: noBundle, ua: uaNow },
+        ric: function (f) { return setTimeout(f, 32); },
+        cancelRic: function (id) { clearTimeout(id); },
+    };
+
     // ── initial view: ?ui= param > localStorage > default 'nb' ─────────
-    var bootView = 'nb';
+    var bootView = noBundle ? 'm3' : 'nb';
     try {
         var q = new URLSearchParams(window.location.search).get('ui');
         if (q === 'm3' || q === 'nb') bootView = q;
@@ -35,7 +63,7 @@
         }
     } catch (_) {}
 
-    var view = bootView;
+    var view = noBundle ? 'm3' : bootView; // legacy browsers can only show M3
 
     // ── webfonts for the NB skin (idempotent) ──────────────────────────
     (function injectFonts() {
@@ -76,6 +104,11 @@
         },
         setView: function (next) {
             if (next !== 'm3' && next !== 'nb') return;
+            if (next === 'nb' && noBundle) {
+                // IE / legacy: no modern bundle — stay on Material 3
+                console.info('[NB patch] legacy browser — Neo-Brutalism skin unavailable');
+                return;
+            }
             if (next === view) return;
             view = next;
             try {
@@ -133,7 +166,7 @@
 
     // ── view application ───────────────────────────────────────────────
     function apply() {
-        if (view === 'nb') {
+        if (view === 'nb' && !noBundle) {
             overlay.classList.add('nbp-overlay--on');
             document.body.classList.add('nbp-hosting');
             ensureApp()
@@ -150,20 +183,23 @@
             overlay.classList.remove('nbp-overlay--on');
             document.body.classList.remove('nbp-hosting');
         }
-        syncFab();
+        if (fab) syncFab();
     }
 
-    // ── floating switcher ──────────────────────────────────────────────
-    var fab = document.createElement('button');
-    fab.type = 'button';
-    fab.className = 'nbp-fab';
-    fab.setAttribute('aria-label', '切换 UI 风格 (Material 3 / Neo-Brutalism)');
-    fab.innerHTML =
-        '<span class="nbp-fab__label">Style</span><span class="nbp-fab__value" aria-hidden="true">M3</span>';
-    document.body.appendChild(fab);
-    fab.addEventListener('click', function () {
-        host.setView(view === 'nb' ? 'm3' : 'nb');
-    });
+    // ── floating switcher (skipped on legacy browsers) ────────────────
+    var fab = null;
+    if (!noBundle) {
+        fab = document.createElement('button');
+        fab.type = 'button';
+        fab.className = 'nbp-fab';
+        fab.setAttribute('aria-label', '切换 UI 风格 (Material 3 / Neo-Brutalism)');
+        fab.innerHTML =
+            '<span class="nbp-fab__label">Style</span><span class="nbp-fab__value" aria-hidden="true">M3</span>';
+        document.body.appendChild(fab);
+        fab.addEventListener('click', function () {
+            host.setView(view === 'nb' ? 'm3' : 'nb');
+        });
+    }
 
     function syncFab() {
         fab.dataset.view = view;
@@ -175,5 +211,9 @@
     syncQuery();
     apply();
 
-    console.log('%c📦 Sticker Hub · Neo-Brutalism patch 已就绪 (M3 未改动)', 'font-weight:bold');
+    console.log(
+        '%c📦 Sticker Hub · Neo-Brutalism patch 已就绪 (M3 未改动) · engine:',
+        'font-weight:bold',
+        compat.engine,
+    );
 })();

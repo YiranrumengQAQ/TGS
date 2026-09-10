@@ -36,6 +36,12 @@ try {
         //  - canvas 2d ctx: so lottie-web's load-time 1x1 canvas feature
         //    probe doesn't abort the NB bundle
         beforeParse(window) {
+            // jsdom ships no fetch — every real target browser (Chrome/
+            // Firefox/Safari) has one, so stub it to emulate a modern
+            // engine (IE11 genuinely lacks it → correctly treated as legacy).
+            if (typeof window.fetch !== 'function') {
+                window.fetch = () => Promise.reject(new Error('fetch stub (jsdom)'));
+            }
             window.matchMedia = (query) => ({
                 matches: false,
                 media: query,
@@ -126,13 +132,29 @@ check('NB: status badge present', Boolean(doc.querySelector('#__nb_root__ .nb-st
 check('NB: empty state or media card', Boolean(doc.querySelector('#__nb_root__ .nb-empty, #__nb_root__ .nb-media')));
 check('NB: overlay is ON (visible)', doc.getElementById('__nb_root__')?.classList.contains('nbp-overlay--on'));
 
-// ── 4. token parity across skins ─────────────────────────────────────
+// ── 4. browser-compat & optimization layer ───────────────────────────
+const compat = window.__NB_COMPAT__;
+check('compat: window.__NB_COMPAT__ exposed', Boolean(compat));
+check('compat: engine object detected', Boolean(compat?.engine) && typeof compat.engine.legacy === 'boolean');
+check('compat: jsdom treated as modern (noBundle false)', compat?.noBundle === false);
+check('compat: ric/cancelRic helpers', typeof compat?.ric === 'function' && typeof compat?.cancelRic === 'function');
+check(
+    'compat: preconnect to api.telegram.org injected',
+    Boolean(doc.querySelector('link[rel="preconnect"][href="https://api.telegram.org"]')),
+);
+check('compat: dns-prefetch to api.telegram.org injected', Boolean(doc.querySelector('link[rel="dns-prefetch"][href="https://api.telegram.org"]')));
+check('compat: X-UA-Compatible IE=edge meta present', Boolean(doc.querySelector('meta[http-equiv="X-UA-Compatible"][content="IE=edge"]')));
+check('compat: compat script tag loaded', Boolean(doc.querySelector('script[src="nb/browser-compat.js"], script[src*="browser-compat.js"]')));
+check('compat: viewport-fit=cover added to viewport meta', (doc.querySelector('meta[name="viewport"]')?.content || '').includes('viewport-fit=cover'));
+check('compat: html not marked nb-legacy (modern env)', !doc.documentElement.classList.contains('nb-legacy'));
+
+// ── 5. token parity across skins ─────────────────────────────────────
 // set a token in the NB skin, confirm M3 input (same storage) is untouched
 // (both skins read the same localStorage key)
 window.localStorage.setItem('tg_bot_token', window.btoa(window.encodeURIComponent('111:TEST-SALT' + 'SuperSecret_TgSticker_2026')));
 check('parity: shared token key readable', (window.localStorage.getItem('tg_bot_token') || '').length > 0);
 
-// ── 5. interactive: switch to M3 via the FAB ─────────────────────────
+// ── 6. interactive: switch to M3 via the FAB ──────────────────────────
 const fab = doc.querySelector('.nbp-fab');
 fab.click();
 await sleep(150);
@@ -145,7 +167,7 @@ fab.click();
 await sleep(150);
 check('switch: FAB click → back to nb', window.__NB_HOST__?.getView() === 'nb');
 
-// ── 6. React exit button ("M3" in top bar) ──────────────────────────
+// ── 7. React exit button ("M3" in top bar) ────────────────────────────
 const exitBtn = doc.querySelector('#__nb_root__ .nb-topbar__exit');
 if (exitBtn) {
     exitBtn.click();

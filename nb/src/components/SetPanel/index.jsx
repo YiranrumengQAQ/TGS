@@ -15,7 +15,7 @@ function Tile({ sticker, onDownloadOne }) {
     return (
         <button type="button" className="nb-set__tile" onClick={() => onDownloadOne(sticker)} title={`下载 ${sticker.type.toUpperCase()}`}>
             {sticker.thumbUrl || sticker.url ? (
-                <img src={sticker.thumbUrl || sticker.url} alt={sticker.emoji || sticker.type} loading="lazy" />
+                <img src={sticker.thumbUrl || sticker.url} alt={sticker.emoji || sticker.type} loading="lazy" decoding="async" />
             ) : (
                 <span className="nb-set__tile-empty">
                     <Icon name="image" size={22} />

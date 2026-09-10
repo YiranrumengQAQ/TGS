@@ -13,6 +13,12 @@
     max-width: 92vw;
     pointer-events: none;
 }
+/* WebKit safe area (home-indicator devices) */
+@supports (bottom: env(safe-area-inset-bottom)) {
+    .nb-toast-stack {
+        bottom: calc(24px + env(safe-area-inset-bottom));
+    }
+}
 .nb-toast {
     pointer-events: auto;
     display: flex;

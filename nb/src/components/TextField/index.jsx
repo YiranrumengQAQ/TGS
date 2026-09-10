@@ -12,6 +12,7 @@ export function TextField({
     mono = false,
     className = '',
     inputClassName = '',
+    inputRef,
     ...inputProps
 }) {
     const id = inputProps.id;
@@ -23,7 +24,7 @@ export function TextField({
                 </label>
             )}
             <div className="nb-field__box">
-                <input className={['nb-field__input', inputClassName].filter(Boolean).join(' ')} {...inputProps} />
+                <input ref={inputRef} className={['nb-field__input', inputClassName].filter(Boolean).join(' ')} {...inputProps} />
                 {trailing && <div className="nb-field__trailing">{trailing}</div>}
             </div>
             {hint && <div className="nb-field__hint">{hint}</div>}

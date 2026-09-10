@@ -6,6 +6,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import { ensureFonts } from './lib/fonts';
+// engine-aware optimizations (idempotent — the patch may have run it first)
+import '../browser-compat.js';
 
 ensureFonts();
 

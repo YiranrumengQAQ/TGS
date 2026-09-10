@@ -7,14 +7,14 @@ import { Button } from '../Button';
 import { DownloadManager } from '../../lib/downloadManager';
 import './styles.css';
 
-export function HistoryList({ items = [], onPick, onClear }) {
+export function HistoryList({ items = [], onPick, onClear, confirming = false }) {
     if (!items.length) return null;
     return (
         <section className="nb-history">
             <div className="nb-history__head">
                 <span className="nb-history__label">最近记录 · RECENT</span>
-                <Button size="xs" variant="outline" icon="trash" onClick={onClear}>
-                    清除全部
+                <Button size="xs" variant={confirming ? 'danger' : 'outline'} icon="trash" onClick={onClear}>
+                    {confirming ? '确认清除?' : '清除全部'}
                 </Button>
             </div>
             <div className="nb-history__list">
@@ -30,7 +30,15 @@ export function HistoryList({ items = [], onPick, onClear }) {
                             src={item.thumbnail || item.originalUrl}
                             alt=""
                             loading="lazy"
+                            decoding="async"
                             onError={(e) => {
+                                // one-shot fallback: if both thumbnail and
+                                // original are dead, don't loop onError
+                                if (e.currentTarget.dataset.fallback === '1') {
+                                    e.currentTarget.style.visibility = 'hidden';
+                                    return;
+                                }
+                                e.currentTarget.dataset.fallback = '1';
                                 e.currentTarget.src = item.originalUrl;
                             }}
                         />

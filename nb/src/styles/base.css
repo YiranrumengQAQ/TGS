@@ -15,6 +15,13 @@
 
 .nb-app {
     min-height: 100vh;
+    /* WebKit (Safari/iOS): prevent font auto-scaling in text inputs */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Gecko (Firefox): standard scrollbar API — thin, themed.
+       (Blink only added scrollbar-width recently; both coexist fine.) */
+    scrollbar-width: thin;
+    scrollbar-color: var(--nb-color-outline) var(--nb-color-surface-container);
     background-color: var(--nb-color-surface);
     /* subtle paper dot-grid texture */
     background-image: radial-gradient(var(--nb-color-outline-faint) 1.1px, transparent 1.1px);
@@ -26,6 +33,28 @@
     font-weight: var(--nb-weight-normal);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+/* WebKit (Safari 15+ / iOS): dynamic viewport height — keeps the bottom
+   edge clear of the browser toolbar (100vh would hide content behind it) */
+@supports (height: 100dvh) {
+    .nb-app {
+        min-height: 100dvh;
+    }
+}
+
+/* Blink/Gecko/WebKit (all current): skip rendering of far off-screen
+   cards entirely; contain-intrinsic-size reserves an estimated height
+   so scrolling doesn't jump when they activate. */
+@supports (content-visibility: auto) {
+    .nb-media {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 380px;
+    }
+    .nb-history__item {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 64px;
+    }
 }
 
 .nb-app button {

@@ -11,7 +11,7 @@ import { TokenManager } from '../lib/tokenManager';
 import { TGBotCore } from '../lib/tgCore';
 import { MediaParser } from '../lib/mediaParser';
 import { DownloadManager } from '../lib/downloadManager';
-import { extOf, sleep } from '../lib/utils';
+import { cancelRic, extOf, ric, sleep } from '../lib/utils';
 
 const HISTORY_KEY = 'tg_sticker_history_nb';
 const MAX_HISTORY = 30;
@@ -43,19 +43,25 @@ export function useStickerHub({ notify }) {
     const [isPolling, setIsPolling] = useState(false);
     const [lastPoll, setLastPoll] = useState(null);
     const [mediaList, setMediaList] = useState(loadHistory);
-    const [activeId, setActiveId] = useState(null);
+    // highlight the newest restored card on load (single active card)
+    const [activeId, setActiveId] = useState(() => {
+        const h = loadHistory();
+        return h.length ? `${h[0].fileId}:${h[0].timestamp}` : null;
+    });
     const [sets, setSets] = useState({}); // fileId → { status:'loading'|'ready'|'error', data?, error?, name? }
     const [zip, setZip] = useState({ fileId: null, progress: 0, packing: false });
 
     const botRef = useRef(null);
     const pollingRef = useRef(false);
     const processedRef = useRef(new Set());
+    const zipPackingRef = useRef(false);
     const notifyRef = useRef(notify);
     notifyRef.current = notify;
 
-    // ── history persistence ────────────────────────────────────────────
+    // ── history persistence (idle-time write, off the main hot path) ──
     useEffect(() => {
-        saveHistory(mediaList);
+        const id = ric(() => saveHistory(mediaList));
+        return () => cancelRic(id);
     }, [mediaList]);
 
     const addMedia = useCallback((m) => {
@@ -66,14 +72,23 @@ export function useStickerHub({ notify }) {
     // ── polling internals ──────────────────────────────────────────────
     const stopInternal = useCallback(() => {
         pollingRef.current = false;
+        const b = botRef.current;
+        if (b) b.abort(); // kill the in-flight getUpdates (up to 30s long-poll)
         botRef.current = null;
         setIsPolling(false);
         setLastPoll(null);
         setStatus((s) => (s.state === 'offline' ? s : { state: 'offline', text: '已停止' }));
     }, []);
 
+    // Only re-render when the status actually changed (the poll loop
+    // reports 监听中 on every successful cycle — no need to re-render all).
+    const setStableStatus = useCallback((state, text) => {
+        setStatus((s) => (s.state === state && s.text === text ? s : { state, text }));
+    }, []);
+
     const start = useCallback(
         (tk) => {
+            if (pollingRef.current) return false; // double-click guard
             tk = (tk || '').trim();
             if (!tk) {
                 notifyRef.current?.('请输入 Bot Token');
@@ -104,7 +119,7 @@ export function useStickerHub({ notify }) {
                         );
                         if (!pollingRef.current || botRef.current !== bot) break;
                         bot.consecutiveErrors = 0;
-                        setStatus({ state: 'online', text: '监听中' });
+                        setStableStatus('online', '监听中');
 
                         for (const update of updates) {
                             bot.lastUpdateId = update.update_id;
@@ -123,6 +138,7 @@ export function useStickerHub({ notify }) {
                         setLastPoll(Date.now());
                     } catch (error) {
                         if (!pollingRef.current || botRef.current !== bot) break;
+                        if (error.name === 'AbortError') break; // user stopped — not an error
                         bot.consecutiveErrors += 1;
                         console.error('轮询错误:', error.message);
 
@@ -145,7 +161,7 @@ export function useStickerHub({ notify }) {
             })();
             return true;
         },
-        [addMedia, stopInternal],
+        [addMedia, stopInternal, setStableStatus],
     );
 
     const stop = useCallback(() => {
@@ -176,6 +192,7 @@ export function useStickerHub({ notify }) {
 
     // ── clear history ──────────────────────────────────────────────────
     const clearHistory = useCallback(() => {
+        zipPackingRef.current = false; // abort an in-flight pack loop
         setMediaList([]);
         setSets({});
         setActiveId(null);
@@ -270,8 +287,6 @@ export function useStickerHub({ notify }) {
         setsRef.current = sets;
     }, [sets]);
 
-    const zipPackingRef = useRef(false);
-
     const closeSet = useCallback((fileId) => {
         setSets((s) => {
             const next = { ...s };
@@ -322,7 +337,13 @@ export function useStickerHub({ notify }) {
         const zip = new JSZip();
         let done = 0;
         let failed = 0;
+        let cancelled = false;
         for (const st of stickers) {
+            // set collapsed / history cleared mid-pack → stop fetching
+            if (!setsRef.current[fileId]) {
+                cancelled = true;
+                break;
+            }
             try {
                 const resp = await fetch(st.url);
                 if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
@@ -334,6 +355,11 @@ export function useStickerHub({ notify }) {
             }
             done++;
             setZip({ fileId, progress: Math.round((done / stickers.length) * 100), packing: true });
+        }
+        if (cancelled) {
+            zipPackingRef.current = false;
+            setZip((z) => ({ ...z, packing: false }));
+            return;
         }
 
         if (stickers.length - failed === 0) {

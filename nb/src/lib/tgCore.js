@@ -10,10 +10,19 @@ export class TGBotCore {
         this.lastUpdateId = 0;
         this.isPolling = false;
         this.consecutiveErrors = 0;
+        this._inflight = null; // AbortController of the latest request
+    }
+
+    /** Abort an in-flight request (e.g. when the user stops polling). */
+    abort() {
+        try {
+            this._inflight && this._inflight.abort();
+        } catch (_) {}
     }
 
     async request(method, params = {}, timeoutMs = 25000) {
         const controller = new AbortController();
+        this._inflight = controller;
         const timer = setTimeout(() => controller.abort(), timeoutMs);
         try {
             const url = new URL(`${this.apiBase}/${method}`);

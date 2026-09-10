@@ -11,6 +11,13 @@
     background: var(--nb-color-surface);
     border-bottom: 3px solid var(--nb-color-outline);
 }
+/* WebKit (Safari/iOS notch devices): keep content out of the safe area
+   (viewport-fit=cover is added by the browser-compat layer) */
+@supports (padding: env(safe-area-inset-top)) {
+    .nb-topbar {
+        padding-top: calc(12px + env(safe-area-inset-top));
+    }
+}
 .nb-topbar__start {
     display: flex;
     align-items: center;

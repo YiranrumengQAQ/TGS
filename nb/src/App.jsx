@@ -37,24 +37,63 @@ export default function App({ host = null }) {
 
     const [visible, setVisible] = useState(false);
     const [convertingId, setConvertingId] = useState(null);
-
-    // scroll newest card into view
+    const [confirmClear, setConfirmClear] = useState(false);
+    const confirmTimer = useRef(null);
+    const tokenInputRef = useRef(null);
     const listRef = useRef(null);
+
+    // ── scroll newest card into view (skip the initial restore) ───────
     const lastMediaId = useRef(null);
     useEffect(() => {
         const newest = hub.mediaList[0];
         const id = newest ? `${newest.fileId}:${newest.timestamp}` : null;
         if (id && id !== lastMediaId.current && lastMediaId.current !== null) {
-            const el = listRef.current?.querySelector(`[data-file-id="${CSS.escape(newest.fileId)}"]`);
+            const el = listRef.current?.querySelector(`[data-media-id="${CSS.escape(id)}"]`);
             el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
         lastMediaId.current = id;
     }, [hub.mediaList]);
 
+    // ── performance: pause videos that scroll out of view ─────────────
+    // (keeps the GPU/CPU/battery load down when many mp4/gif cards are
+    //  stacked; resumes automatically when scrolled back into view)
+    useEffect(() => {
+        const root = listRef.current;
+        if (!root || typeof IntersectionObserver === 'undefined') return;
+        const io = new IntersectionObserver(
+            (entries) => {
+                for (const entry of entries) {
+                    const video = entry.target;
+                    if (entry.isIntersecting) {
+                        if (video.dataset.wasPlaying === '1') video.play().catch(() => {});
+                    } else if (!video.paused && !video.ended) {
+                        video.dataset.wasPlaying = '1';
+                        video.pause();
+                    }
+                }
+            },
+            { root: null, threshold: 0.05 },
+        );
+        const watch = () => root.querySelectorAll('video').forEach((v) => io.observe(v));
+        watch();
+        const mo = new MutationObserver(watch);
+        mo.observe(root, { childList: true, subtree: true });
+        return () => {
+            io.disconnect();
+            mo.disconnect();
+        };
+    }, []);
+
+    // ── start / stop ──────────────────────────────────────────────────
     const handleStart = useCallback(() => {
         const ok = hub.start(hub.token);
         if (ok) notify('已启动监听');
+        else tokenInputRef.current?.focus();
     }, [hub, notify]);
+
+    const handleStop = useCallback(() => {
+        hub.stop();
+    }, [hub]);
 
     const handleConvert = useCallback(
         async (m) => {
@@ -64,6 +103,45 @@ export default function App({ host = null }) {
             } finally {
                 setConvertingId(null);
             }
+        },
+        [hub],
+    );
+
+    // ── two-step "clear history" confirm (misclick guard) ─────────────
+    const handleClear = useCallback(() => {
+        if (!confirmClear) {
+            setConfirmClear(true);
+            clearTimeout(confirmTimer.current);
+            confirmTimer.current = setTimeout(() => setConfirmClear(false), 3000);
+            return;
+        }
+        clearTimeout(confirmTimer.current);
+        setConfirmClear(false);
+        hub.clearHistory();
+    }, [confirmClear, hub]);
+
+    useEffect(
+        () => () => {
+            clearTimeout(confirmTimer.current);
+        },
+        [],
+    );
+
+    // ── stable, memo-friendly callbacks (all take the media object) ───
+    const onDownloadOriginal = useCallback((m) => hub.downloadOriginal(m), [hub]);
+    const onCopyLink = useCallback((m) => hub.copyLink(m), [hub]);
+    const onToggleSet = useCallback((m) => hub.toggleSet(m.fileId, m.setName), [hub]);
+    const onSetRetry = useCallback((m) => hub.loadSet(m.fileId, m.setName), [hub]);
+    const onDownloadOne = useCallback((st) => hub.downloadOne(st), [hub]);
+    const onDownloadAll = useCallback((stickers) => hub.downloadAll(stickers), [hub]);
+    const onZip = useCallback((m) => hub.packZip(m.fileId), [hub]);
+
+    const onPick = useCallback(
+        (m) => {
+            hub.pickMedia(m);
+            const id = `${m.fileId}:${m.timestamp}`;
+            const el = listRef.current?.querySelector(`[data-media-id="${CSS.escape(id)}"]`);
+            el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         },
         [hub],
     );
@@ -90,6 +168,7 @@ export default function App({ host = null }) {
                         <TextField
                             id="nb-token-input"
                             mono
+                            inputRef={tokenInputRef}
                             type={visible ? 'text' : 'password'}
                             value={hub.token}
                             onChange={(e) => hub.setToken(e.target.value)}
@@ -113,7 +192,7 @@ export default function App({ host = null }) {
                             <Button icon="play" onClick={handleStart} disabled={hub.isPolling}>
                                 监听
                             </Button>
-                            <Button variant="danger" icon="stop" onClick={hub.stop} disabled={!hub.isPolling}>
+                            <Button variant="danger" icon="stop" onClick={handleStop} disabled={!hub.isPolling}>
                                 停止
                             </Button>
                         </div>
@@ -135,25 +214,26 @@ export default function App({ host = null }) {
                             desc="向你的 Bot 发送贴纸、GIF 或动画，它们将自动出现在这里。"
                         />
                     ) : (
-                        hub.mediaList.map((m, i) => {
+                        hub.mediaList.map((m) => {
                             const id = `${m.fileId}:${m.timestamp}`;
                             return (
                                 <MediaCard
                                     key={id}
                                     media={m}
-                                    active={i === 0 || hub.activeId === id}
+                                    id={id}
+                                    active={hub.activeId === id}
                                     converting={convertingId === m.fileId}
                                     set={hub.sets[m.fileId] || null}
                                     zipProgress={hub.zip.fileId === m.fileId ? hub.zip.progress : 0}
                                     zipPacking={hub.zip.fileId === m.fileId && hub.zip.packing}
-                                    onDownloadOriginal={() => hub.downloadOriginal(m)}
-                                    onConvertPng={() => handleConvert(m)}
-                                    onCopyLink={() => hub.copyLink(m)}
-                                    onToggleSet={() => hub.toggleSet(m.fileId, m.setName)}
-                                    onSetRetry={() => hub.loadSet(m.fileId, m.setName)}
-                                    onDownloadOne={hub.downloadOne}
-                                    onDownloadAll={() => hub.downloadAll(hub.sets[m.fileId]?.data?.stickers || [])}
-                                    onZip={() => hub.packZip(m.fileId)}
+                                    onDownloadOriginal={onDownloadOriginal}
+                                    onConvertPng={handleConvert}
+                                    onCopyLink={onCopyLink}
+                                    onToggleSet={onToggleSet}
+                                    onSetRetry={onSetRetry}
+                                    onDownloadOne={onDownloadOne}
+                                    onDownloadAll={onDownloadAll}
+                                    onZip={onZip}
                                 />
                             );
                         })
@@ -161,15 +241,7 @@ export default function App({ host = null }) {
                 </section>
 
                 {/* ── HISTORY ────────────────────────────────────────── */}
-                <HistoryList
-                    items={hub.mediaList.slice(0, 12)}
-                    onPick={(m) => {
-                        hub.pickMedia(m);
-                        const el = listRef.current?.querySelector(`[data-file-id="${CSS.escape(m.fileId)}"]`);
-                        el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }}
-                    onClear={hub.clearHistory}
-                />
+                <HistoryList items={hub.mediaList.slice(0, 12)} onPick={onPick} onClear={handleClear} confirming={confirmClear} />
 
                 <footer className="nb-footer">
                     <span>STICKER HUB</span>

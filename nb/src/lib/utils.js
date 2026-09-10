@@ -37,3 +37,20 @@ export function sourceLabel(category) {
             return '未知';
     }
 }
+
+/**
+ * requestIdleCallback (Chrome/Edge/Firefox 122+/Safari 15.4+; injected by
+ * the browser-compat layer when present) — used to keep non-critical work
+ * (history persistence) off the main-thread hot path. Falls back to
+ * setTimeout elsewhere.
+ */
+export function ric(fn, timeout = 2000) {
+    const compat = typeof window !== 'undefined' ? window.__NB_COMPAT__ : null;
+    return compat ? compat.ric(fn, timeout) : setTimeout(fn, 50);
+}
+
+export function cancelRic(id) {
+    const compat = typeof window !== 'undefined' ? window.__NB_COMPAT__ : null;
+    if (compat) compat.cancelRic(id);
+    else clearTimeout(id);
+}
